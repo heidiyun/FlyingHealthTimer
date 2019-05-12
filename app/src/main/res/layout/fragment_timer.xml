@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status"
+            android:layout_gravity="top|center"
+            android:textSize="48dp"
+            android:textColor="#eee"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="30dp"/>
+
+        <com.dinuscxj.progressbar.CircleProgressBar
+            android:id="@+id/circleProgressbar"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            app:style="solid_line"
+            app:progress_text_size="50dp"
+            app:progress_stroke_width="10dp"
+            app:progress_start_degree="-90"
+            app:drawBackgroundOutsideProgress="false"
+            app:progress_shader="sweep"
+            app:progress_stroke_cap="round"
+            app:line_width="20dp"
+            app:line_count="30"
+            android:layout_weight="0.5"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/8"
+            android:id="@+id/count"
+            android:layout_gravity="bottom|center"
+            android:textSize="48dp"
+            android:textColor="#eee"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical" />
+
+        <ImageButton
+            android:id="@+id/fab"
+            android:layout_weight="0"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_progress"
+            android:src="@drawable/ic_action_av_stop"
+            android:layout_marginBottom="10dp"
+            />
+
+
+    </LinearLayout>
+
+</FrameLayout>
