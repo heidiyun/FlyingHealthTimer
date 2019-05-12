@@ -38,6 +38,7 @@ public class TimerFragment extends BaseFragment {
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
 
+    private Boolean isRunning = false;
     private TimerModel timerModel;
     private TextView statusView;
     private TextView time;
@@ -58,6 +59,7 @@ public class TimerFragment extends BaseFragment {
     private Handler handlerTimer;
     private Intent i;
     private ImageButton fabStop;
+    private ImageButton fabStart;
 
     public TimerFragment() {
     }
@@ -98,13 +100,55 @@ public class TimerFragment extends BaseFragment {
 //        time = (TextView) rootView.findViewById(R.id.time);
         count = (TextView) rootView.findViewById(R.id.count);
         fabStop = (ImageButton) rootView.findViewById(R.id.fab);
+        fabStart = (ImageButton) rootView.findViewById(R.id.fab1);
         fabStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.stopService(new Intent(getContext(), TimerService.class));
-                FragmentController.backFragmet();
+                if (isRunning) {
+                    mActivity.stopService(new Intent(getContext(), TimerService.class));
+                    isRunning = false;
+                } else {
+                    if (!isMyServiceRunning(TimerService.class)) {
+                        Intent i = new Intent(getContext(), TimerService.class);
+                        i.putExtra("status", 1);
+                        i.putExtra("rest", maxRest);
+                        i.putExtra("run", maxRun);
+                        i.putExtra("pause", maxPause);
+                        i.putExtra("count", timerModel.timerCount);
+                        i.putExtra("id", timerModel.id);
+                        i.putExtra("nowRest", rest);
+                        i.putExtra("nowRun", run);
+                        i.putExtra("nowPause", pause);
+                        i.putExtra("nowCount", nowRepeat);
+                        i.putExtra("nowStatus", nowStatus);
+                        Log.d("id dd", timerModel.id);
+                        getContext().startService(i);
+                    }
+                    isRunning = true;
+
+
+                }
+                updateScreen();
+
+//                FragmentController.backFragmet();
             }
         });
+
+        fabStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.stopService(new Intent(getContext(), TimerService.class));
+                nowStatus = REST;
+                rest = maxRest;
+                run = maxRun;
+                pause = maxPause;
+                nowRepeat = 0;
+                isRunning = false;
+                updateScreen();
+
+            }
+        });
+
 
         rest = timerModel.timeRest;
         run = timerModel.timeRun;
@@ -118,13 +162,14 @@ public class TimerFragment extends BaseFragment {
             i.putExtra("rest", timerModel.timeRest);
             i.putExtra("run", timerModel.timeRun);
             i.putExtra("pause", timerModel.timePause);
-            i.putExtra("count", timerModel.timerCount);
+            i.putExtra("count", nowRepeat);
             i.putExtra("id", timerModel.id);
             Log.d("id dd", timerModel.id);
             getContext().startService(i);
         }
 
         updateScreen();
+        isRunning = true;
 
         return rootView;
     }
@@ -163,6 +208,13 @@ public class TimerFragment extends BaseFragment {
 
     private void updateScreen() {
         if (timerModel == null) return;
+
+        if (isRunning) {
+            fabStop.setImageResource(R.drawable.ic_pause_button);
+        } else {
+            fabStop.setImageResource(R.drawable.ic_play_button);
+        }
+
         if (timerModel.timerCount != TimerModel.COUNT_SINGLE_TIMER) {
             count.setText(nowRepeat + " / " + timerModel.timerCount);
         } else {
@@ -173,9 +225,9 @@ public class TimerFragment extends BaseFragment {
         switch (nowStatus) {
             case REST:
                 statusView.setText(R.string.rest);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(),R.color.yellow));
+                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setMax(maxRest);
-                progressBar.setProgress(rest-1);
+                progressBar.setProgress(rest - 1);
                 progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
@@ -183,23 +235,23 @@ public class TimerFragment extends BaseFragment {
                 break;
             case RUN:
                 progressBar.setMax(maxRun);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(),R.color.green));
+                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 statusView.setText(R.string.run);
-                progressBar.setProgress(run-1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.green));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.green));
-                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.green)));
-                setStatusBarColor(R.color.green);
+                progressBar.setProgress(run - 1);
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
+                setStatusBarColor(R.color.yellow);
                 break;
             case PAUSE:
                 progressBar.setMax(maxPause);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(),R.color.red));
+                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 statusView.setText(R.string.pausa);
-                progressBar.setProgress(pause-1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.red));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.red));
-                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.red)));
-                setStatusBarColor(R.color.red);
+                progressBar.setProgress(pause - 1);
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
+                setStatusBarColor(R.color.yellow);
                 break;
             case FINISH:
                 mActivity.stopService(new Intent(getContext(), TimerService.class));
@@ -207,6 +259,7 @@ public class TimerFragment extends BaseFragment {
                 progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 break;
         }
+
     }
 
     private void setStatusBarColor(int idColor) {
@@ -258,7 +311,7 @@ public class TimerFragment extends BaseFragment {
             case R.id.action_edit:
                 pauseTimer = true;
 
-                    FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
+                FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
                 break;
         }
         return true;

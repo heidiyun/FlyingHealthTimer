@@ -56,15 +56,31 @@ public class TimerService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand");
-        timerModel.timeRest = intent.getIntExtra("rest",0);
-        timerModel.timeRun = intent.getIntExtra("run",0);
-        timerModel.timePause = intent.getIntExtra("pause",0);
-        timerModel.timerCount = intent.getIntExtra("count",0);
-        timerModel.id = intent.getIntExtra("id",-1);
-        Log.d("id", timerModel.id );
-        rest = timerModel.timeRest;
-        run = timerModel.timeRun;
-        pause = timerModel.timePause;
+        int status = intent.getIntExtra("status", 0);
+        if (status == 0) {
+            timerModel.timeRest = intent.getIntExtra("rest", 0);
+            timerModel.timeRun = intent.getIntExtra("run", 0);
+            timerModel.timePause = intent.getIntExtra("pause", 0);
+            timerModel.timerCount = intent.getIntExtra("count", 0);
+            timerModel.id = intent.getIntExtra("id", -1);
+            Log.d("id", timerModel.id);
+            rest = timerModel.timeRest;
+            run = timerModel.timeRun;
+            pause = timerModel.timePause;
+        } else {
+            timerModel.timeRest = intent.getIntExtra("rest", 0);
+            timerModel.timeRun = intent.getIntExtra("run", 0);
+            timerModel.timePause = intent.getIntExtra("pause", 0);
+            timerModel.timerCount = intent.getIntExtra("count", 0);
+            timerModel.id = intent.getIntExtra("id", -1);
+            rest = intent.getIntExtra("nowRest", 0);
+            run = intent.getIntExtra("nowRun", 0);
+            pause = intent.getIntExtra("nowPause", 0);
+            nowRepeat = intent.getIntExtra("nowCount", 0);
+            nowStatus = intent.getIntExtra("nowStatus", 0);
+            Log.d("id", timerModel.id);
+
+        }
         someTask();
         notification();
 
