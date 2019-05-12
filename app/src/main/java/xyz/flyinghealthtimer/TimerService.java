@@ -41,6 +41,7 @@ public class TimerService extends Service {
     private boolean pauseTimer = false;
     private Timer timer;
     private PowerManager.WakeLock wakeLock;
+    private NotificationManager notificationManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -94,11 +95,13 @@ public class TimerService extends Service {
         //if(handlerTimer != null) handlerTimer.removeCallbacksAndMessages(null);
         if (runnableTimer != null) runnableTimer.cancel();
         if (timer != null) timer.cancel();
+        if (notificationManager != null) notificationManager.cancelAll();
+
     }
 
     void someTask() {
 
-        PowerManager mgr = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         wakeLock.acquire();
 
@@ -106,7 +109,7 @@ public class TimerService extends Service {
         handlerTimer.postDelayed(runnableTimer, 1000);*/
 
         //if (runnableTimer != null) runnableTimer.cancel();
-        if(timer!= null) timer.cancel();
+        if (timer != null) timer.cancel();
         timer = new Timer();
         timer.schedule(runnableTimer, 1000, 1000);
     }
@@ -115,103 +118,102 @@ public class TimerService extends Service {
         @Override
         public void run() {
             Log.d("runnableTimer", "runnableTimer");
-                if(pauseTimer) return;
-                if(nowStatus == REST) {
-                    if(rest > 0) rest--;
-                    if(rest < 4 && rest > 0){
-                        playBeep(false);
-                    }
-                    if(rest == 0) {
-                        nowStatus = RUN;
-                        playBeep(true);
-                        nowRepeat++;
-                    }
+            if (pauseTimer) return;
+            if (nowStatus == REST) {
+                if (rest > 0) rest--;
+                if (rest < 4 && rest > 0) {
+                    playBeep(false);
                 }
-                else if(nowStatus == RUN){
-                    if(run > 0) run--;
-                    if(run < 4 && run > 0){
-                        playBeep(false);
-                    }
-                    if(run == 0){
-                        if(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER){
+                if (rest == 0) {
+                    nowStatus = RUN;
+                    playBeep(true);
+                    nowRepeat++;
+                }
+            } else if (nowStatus == RUN) {
+                if (run > 0) run--;
+                if (run < 4 && run > 0) {
+                    playBeep(false);
+                }
+                if (run == 0) {
+                    if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
+                        nowStatus = FINISH;
+                    } else {
+                        nowStatus = PAUSE;
+                        run = timerModel.timeRun;
+                        if (nowRepeat == timerModel.timerCount) {
                             nowStatus = FINISH;
-                        }else {
-                            nowStatus = PAUSE;
-                            run = timerModel.timeRun;
-                            if (nowRepeat == timerModel.timerCount) {
-                                nowStatus = FINISH;
-                            } else {
-                                nowRepeat++;
-                            }
+                        } else {
+                            nowRepeat++;
                         }
+                    }
+                    playBeep(true);
+                }
+            } else if (nowStatus == PAUSE) {
+                if (pause > 0) pause--;
+                if (pause < 4 && pause > 0) {
+                    playBeep(false);
+                }
+                if (pause == 0) {
+                    nowStatus = RUN;
+                    if (timerModel.timePause != 0) {
                         playBeep(true);
                     }
-                }else if(nowStatus == PAUSE){
-                    if(pause > 0) pause--;
-                    if(pause < 4 && pause > 0){
-                        playBeep(false);
-                    }
-                    if(pause == 0){
-                        nowStatus = RUN;
-                        if(timerModel.timePause != 0){
-                            playBeep(true);
-                        }
-                        pause = timerModel.timePause;
-                    }
+                    pause = timerModel.timePause;
                 }
-                Intent intent = new Intent(NOTIFICATION);
-                intent.putExtra("status", nowStatus);
-                intent.putExtra("rest", rest);
-                intent.putExtra("run", run);
-                intent.putExtra("pause", pause);
-                intent.putExtra("nowRepeat", nowRepeat);
-                sendBroadcast(intent);
-                notification();
-                if(nowStatus == FINISH) {
-                    wakeLock.release();
-                    if (timer != null) timer.cancel();
-                    stopSelf();
-                }
+            }
+            Intent intent = new Intent(NOTIFICATION);
+            intent.putExtra("status", nowStatus);
+            intent.putExtra("rest", rest);
+            intent.putExtra("run", run);
+            intent.putExtra("pause", pause);
+            intent.putExtra("nowRepeat", nowRepeat);
+            sendBroadcast(intent);
+            notification();
+            if (nowStatus == FINISH) {
+                wakeLock.release();
+                if (timer != null) timer.cancel();
+                stopSelf();
+            }
         }
     };
 
-    private void playBeep(boolean isLong){
+    private void playBeep(boolean isLong) {
         try {
             if (player != null) {
                 player.stop();
                 player.reset();
                 player.release();
             }
-            if(isLong){
-                if(nowStatus == PAUSE){
+            if (isLong) {
+                if (nowStatus == PAUSE) {
                     afd = getAssets().openFd("rest.wav");
                 }
-                if(nowStatus == FINISH){
+                if (nowStatus == FINISH) {
                     afd = getAssets().openFd("finish.wav");
                 }
-                if(nowStatus == RUN){
+                if (nowStatus == RUN) {
                     afd = getAssets().openFd("start.mp3");
                 }
-            }else {
+            } else {
                 afd = getAssets().openFd("beep-07.mp3");
             }
             player = new MediaPlayer();
-            player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             player.prepare();
             player.start();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void notification(){
+    private void notification() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setAction("open");
         intent.putExtra("timer_id", timerModel.id);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel notificationChannel = new NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription("channer description");
             notificationChannel.enableLights(true);
@@ -231,6 +233,7 @@ public class TimerService extends Service {
                     .setContentIntent(pIntent)
                     .setAutoCancel(true).build();
 
+
 //            Intent i = new Intent(this, MainActivity.class);
 //            i.setAction("stop");
 //            i.putExtra("stop", true);
@@ -243,21 +246,21 @@ public class TimerService extends Service {
         }
     }
 
-    private String getTime(){
-        switch (nowStatus){
+    private String getTime() {
+        switch (nowStatus) {
             case REST:
-                return rest+"";
+                return rest + "";
             case PAUSE:
-                return pause+"";
+                return pause + "";
             case RUN:
-                return run+"";
+                return run + "";
             default:
                 return "";
         }
     }
 
-    private String getTextStatus(){
-        switch (nowStatus){
+    private String getTextStatus() {
+        switch (nowStatus) {
             case REST:
                 return getResources().getString(R.string.rest);
             case PAUSE:
