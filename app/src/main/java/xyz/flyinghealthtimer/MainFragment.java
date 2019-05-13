@@ -18,8 +18,6 @@ import java.util.Date;
 public class MainFragment extends BaseFragment {
 
     private ListView listTimer;
-    private TextView btnTabata;
-    private TextView btnSimple;
     private FloatingActionButton fab;
 
     @Override
@@ -35,38 +33,17 @@ public class MainFragment extends BaseFragment {
 
         rootView = (FrameLayout) inflater.inflate(R.layout.fragment_main, container, false);
 
-        btnTabata = (TextView) rootView.findViewById(R.id.tabata_timer);
-        btnSimple = (TextView) rootView.findViewById(R.id.simple_timer);
-        btnTabata.setVisibility(View.GONE);
-        btnSimple.setVisibility(View.GONE);
-
-        btnTabata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentController.newFragment(new AddTimerFragment(), R.layout.fragment_addtimer, true);
-            }
-        });
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(btnTabata.getVisibility() == View.GONE){
-                    btnTabata.setVisibility(View.VISIBLE);
-                    btnSimple.setVisibility(View.VISIBLE);
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_navigation_close));
-                }else{
-                    btnTabata.setVisibility(View.GONE);
-                    btnSimple.setVisibility(View.GONE);
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp));
-                }
-            }
+        fab.setOnClickListener((view)->{
+            FragmentController.newFragment(new AddTimerFragment(), R.layout.fragment_edittimer, true);
         });
+
 
         if(TimerApi.getListTimers(mActivity).size() == 0){
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();
-            timer.name = getResources().getString(R.string.tabata_timer);
+            timer.name = getResources().getString(R.string.flying_health_timer);
             timer.timeRest = 10;
             timer.timeRun = 20;
             timer.timePause = 10;
@@ -75,19 +52,11 @@ public class MainFragment extends BaseFragment {
 
             timer = new TimerModel();
             timer.id = (int) new Date().getTime();
-            timer.name = getResources().getString(R.string.tabata_timer);
+            timer.name = getResources().getString(R.string.flying_health_timer);
             timer.timeRest = 10;
             timer.timeRun = 50;
             timer.timePause = 20;
             timer.timerCount = 6;
-            TimerApi.addTimer(mActivity, timer);
-
-            timer = new TimerModel();
-            timer.id = (int) new Date().getTime();
-            timer.name = getResources().getString(R.string.simple);
-            timer.timeRest = 5;
-            timer.timeRun = 6*60;
-            timer.timerCount = TimerModel.COUNT_SINGLE_TIMER;
             TimerApi.addTimer(mActivity, timer);
         }
 
@@ -101,7 +70,7 @@ public class MainFragment extends BaseFragment {
                 if(isMyServiceRunning(TimerService.class)) {
                     getActivity().stopService(new Intent(getContext(), TimerService.class));
                 }
-                if(position == parent.getCount()-1) return;
+                if(position == parent.getCount()) return;
                 TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
 
                 FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);

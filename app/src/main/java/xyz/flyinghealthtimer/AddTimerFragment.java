@@ -2,6 +2,9 @@ package xyz.flyinghealthtimer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,7 +19,6 @@ public class AddTimerFragment extends BaseFragment {
 
     private EditText timeRun;
     private EditText timePause;
-    private Button btnSave;
     private EditText timerCount;
     private EditText nameText;
 
@@ -31,11 +33,11 @@ public class AddTimerFragment extends BaseFragment {
 
         rootView = (FrameLayout) inflater.inflate(R.layout.fragment_addtimer, container, false);
 
-        nameText = (EditText) rootView.findViewById(R.id.name);
-        timeRun = (EditText) rootView.findViewById(R.id.time_run);
-        timePause = (EditText) rootView.findViewById(R.id.time_pause);
-        timerCount = (EditText) rootView.findViewById(R.id.timer_count);
-        btnSave = (Button) rootView.findViewById(R.id.button_save);
+        nameText = (EditText) rootView.findViewById(R.id.setName);
+        timeRun = (EditText) rootView.findViewById(R.id.setExercise);
+        timePause = (EditText) rootView.findViewById(R.id.setRest);
+        timerCount = (EditText) rootView.findViewById(R.id.setCount);
+        //btnSave = (Button) rootView.findViewById(R.id.button_save);
 
         /*TimeDialog timeRunDialog = new TimeDialog(getActivity(), timeRun);
         timeRun.setOnClickListener(timeRunDialog);
@@ -44,7 +46,7 @@ public class AddTimerFragment extends BaseFragment {
         TimeDialog timePauseDialog = new TimeDialog(getActivity(), timePause);
         timePause.setOnClickListener(timePauseDialog);
         timePause.setOnFocusChangeListener(timePauseDialog);*/
-
+        /*
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +76,45 @@ public class AddTimerFragment extends BaseFragment {
                 }
             }
         });
+        */
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_edit, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                if (timeRun.getText().length() == 0 || timerCount.getText().length() == 0 ||
+                        timePause.getText().length() == 0 || nameText.getText().length() == 0) {
+                    showToast(R.string.toast_empty_field);
+                    break;
+                }
+                try {
+
+                    TimerModel timer = new TimerModel();
+                    timer.id = (int) new Date().getTime();
+                    timer.name = nameText.getText().toString();
+                    timer.timeRest = 10;
+                    timer.timeRun = (Integer.valueOf(timeRun.getText().toString()));
+                    timer.timePause = (Integer.valueOf(timePause.getText().toString()));
+                    timer.timerCount = (Integer.valueOf(timerCount.getText().toString()));
+                    TimerApi.addTimer(mActivity, timer);
+                    showToast(R.string.toast_timer_created);
+                    Utils.hideKeyboard(mActivity);
+                    FragmentController.backFragmet();
+                }catch (NumberFormatException e) {
+                    timeRun.setText("");
+                    timePause.setText("");
+                    timerCount.setText("");
+                }
+        }
+        return true;
     }
 }

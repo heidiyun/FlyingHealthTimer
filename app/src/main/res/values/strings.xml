@@ -6,6 +6,7 @@
     <string name="text_rest">Rest</string>
     <string name="text_timerSet">Timer Set</string>
     <string name="action_edit">편집</string>
+    <string name="action_save">저장</string>
     <string name="finish">Finish</string>
     <string name="pausa">휴식</string>
     <string name="remove">Remove</string>
@@ -31,7 +32,7 @@
     <string name="title.create_single_timer">Create a simple timer</string>
     <string name="minutes">minutes</string>
     <string name="simple">Simple timer</string>
-    <string name="tabata_timer">Tabata timer</string>
+    <string name="flying_health_timer">Flying Health Timer</string>
     <string name="name_timer">The name of the timer</string>
     <string name="sec">sec.</string>
     <string name="stop">Stop</string>

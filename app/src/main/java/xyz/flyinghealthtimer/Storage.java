@@ -17,6 +17,7 @@ public class Storage {
     private static final String STORAGE_NAME = "TABATA_TIMER";
 
     public static void addTimer(Context mContext, TimerModel timer){
+
         JSONArray jsonArray = getJson(mContext);
         try {
             JSONObject jsonObject = new JSONObject();
@@ -67,7 +68,7 @@ public class Storage {
                     if(timer.timerCount == TimerModel.COUNT_SINGLE_TIMER){
                         timer.name = context.getResources().getString(R.string.simple);
                     }else{
-                        timer.name = context.getResources().getString(R.string.tabata_timer);
+                        timer.name = context.getResources().getString(R.string.flying_health_timer);
                     }
                 }
                 list.add(timer);

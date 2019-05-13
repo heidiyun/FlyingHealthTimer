@@ -9,99 +9,106 @@
         android:scrollbarStyle="outsideOverlay">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name_timer"
-                android:id="@+id/textVie" />
-
-            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/text_setName"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="#03A9F4"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/setName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Timer Set"
                 android:inputType="textCapSentences|textPersonName"
-                android:text="@string/tabata_timer"
-                android:ems="10"
-                android:id="@+id/name"
-                android:layout_marginBottom="16dp"
-                android:maxLength="40"/>
+                android:maxLength="40"
+                android:textAlignment="center"
+                android:textColor="#3C3CFF"
+                android:textColorHint="#BE636363"
+                android:textSize="36sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text.hint.time_run"
-                android:id="@+id/textView" />
+                android:layout_marginTop="24dp"
+                android:text="@string/text_setCount"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="#03A9F4"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/setCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/time_run"
-                android:inputType="numberSigned"
-                android:hint="20"
-                android:textColorHint="#aaa"
-                android:maxLength="5"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text.hint.time_pause"
-                android:id="@+id/textView2" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/time_pause"
-                android:inputType="numberSigned"
-                android:hint="10"
-                android:textColorHint="#aaa"
-                android:maxLength="5"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text.hint.timer_count"
-                android:id="@+id/textView3" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/timer_count"
-                android:layout_gravity="center_horizontal"
                 android:hint="8"
-                android:textColorHint="#aaa"
-                android:maxLength="5"/>
+                android:inputType="numberSigned"
+                android:maxLength="5"
+                android:textAlignment="center"
+                android:textColor="#3C3CFF"
+                android:textColorHint="#BE636363"
+                android:textSize="36sp" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal">
+                android:layout_marginTop="24dp"
+                android:text="@string/text_exercise"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="#03A9F4"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/remove"
-                    android:id="@+id/button_remove"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="8dp" />
+            <EditText
+                android:id="@+id/setExercise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="20"
+                android:inputType="numberSigned"
+                android:maxLength="5"
+                android:textAlignment="center"
+                android:textColor="#3C3CFF"
+                android:textColorHint="#BE636363"
+                android:textSize="36sp" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text.name.save"
-                    android:id="@+id/button_save"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="8dp" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/text_rest"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="#03A9F4"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/setRest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:ems="10"
+                android:hint="10"
+                android:inputType="numberSigned"
+                android:maxLength="5"
+                android:textAlignment="center"
+                android:textColor="#3C3CFF"
+                android:textColorHint="#BE636363"
+                android:textSize="36sp" />
 
         </LinearLayout>
     </ScrollView>

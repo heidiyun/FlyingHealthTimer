@@ -25,7 +25,7 @@ public class TimerAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		return list.size()+1;
+		return list.size();
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class TimerAdapter extends BaseAdapter{
 		}
 
 		View root = container.findViewById(R.id.root);
-		if(position == getCount()-1){
+		if(position == getCount()){
 			root.setVisibility(View.GONE);
 			ViewGroup.LayoutParams lp = container.getLayoutParams();
 
