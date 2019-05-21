@@ -25,7 +25,7 @@ public class TimerAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		return list.size();
+		return list.size() ;
 	}
 
 	@Override

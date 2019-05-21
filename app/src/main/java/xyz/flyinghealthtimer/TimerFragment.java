@@ -33,12 +33,15 @@ import trikita.log.Log;
 @SuppressLint("ValidFragment")
 public class TimerFragment extends BaseFragment {
 
+
     private static final int REST = 0;
     private static final int RUN = 1;
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
 
-    private Boolean isRunning = false;
+    static boolean isForeground = true;
+
+    static Boolean isRunning = false;
     private TimerModel timerModel;
     private TextView statusView;
     private TextView time;
@@ -75,6 +78,18 @@ public class TimerFragment extends BaseFragment {
         public CharSequence format(int progress, int max) {
             return String.format(DEFAULT_PATTERN, progress + 1);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isForeground = false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isForeground  = true;
     }
 
     @Override
@@ -162,7 +177,7 @@ public class TimerFragment extends BaseFragment {
             i.putExtra("rest", timerModel.timeRest);
             i.putExtra("run", timerModel.timeRun);
             i.putExtra("pause", timerModel.timePause);
-            i.putExtra("count", nowRepeat);
+            i.putExtra("count", timerModel.timerCount);
             i.putExtra("id", timerModel.id);
             Log.d("id dd", timerModel.id);
             getContext().startService(i);

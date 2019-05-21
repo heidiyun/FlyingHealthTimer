@@ -13,8 +13,12 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
+import android.widget.RemoteViews;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +34,7 @@ public class TimerService extends Service {
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
 
+    private TextToSpeech tts;
     public static TimerModel timerModel = new TimerModel();
     private int rest;
     private int run;
@@ -37,6 +42,7 @@ public class TimerService extends Service {
     private int nowRepeat = 0;
     private int nowStatus = 0;
     private MediaPlayer player;
+    private Vibrator vib;
     private AssetFileDescriptor afd;
     private boolean pauseTimer = false;
     private Timer timer;
@@ -82,8 +88,22 @@ public class TimerService extends Service {
             Log.d("id", timerModel.id);
 
         }
+
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+
+        tts.setPitch(0.7f);
+        tts.setSpeechRate(1.2f);
+
         someTask();
-        notification();
+//        notification();
 
 
         return super.onStartCommand(intent, flags, startId);
@@ -122,7 +142,8 @@ public class TimerService extends Service {
             if (nowStatus == REST) {
                 if (rest > 0) rest--;
                 if (rest < 4 && rest > 0) {
-                    playBeep(false);
+//                    playBeep(false);
+                    speakSec(rest);
                 }
                 if (rest == 0) {
                     nowStatus = RUN;
@@ -132,7 +153,8 @@ public class TimerService extends Service {
             } else if (nowStatus == RUN) {
                 if (run > 0) run--;
                 if (run < 4 && run > 0) {
-                    playBeep(false);
+//                    playBeep(false);
+                    speakSec(run);
                 }
                 if (run == 0) {
                     if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
@@ -147,11 +169,13 @@ public class TimerService extends Service {
                         }
                     }
                     playBeep(true);
+
                 }
             } else if (nowStatus == PAUSE) {
                 if (pause > 0) pause--;
                 if (pause < 4 && pause > 0) {
-                    playBeep(false);
+//                    playBeep(false);
+                    speakSec(pause);
                 }
                 if (pause == 0) {
                     nowStatus = RUN;
@@ -168,7 +192,10 @@ public class TimerService extends Service {
             intent.putExtra("pause", pause);
             intent.putExtra("nowRepeat", nowRepeat);
             sendBroadcast(intent);
-            notification();
+            if (TimerFragment.isRunning && !TimerFragment.isForeground) {
+                Log.i("SSS", "here");
+                notification();
+            }
             if (nowStatus == FINISH) {
                 wakeLock.release();
                 if (timer != null) timer.cancel();
@@ -177,12 +204,21 @@ public class TimerService extends Service {
         }
     };
 
+    private void speakSec(int sec) {
+
+        String secTo = Integer.toString(sec);
+        tts.speak(secTo, TextToSpeech.QUEUE_FLUSH, null, null);
+
+
+    }
+
     private void playBeep(boolean isLong) {
         try {
-            if (player != null) {
+            if (player != null && vib != null) {
                 player.stop();
                 player.reset();
                 player.release();
+                vib.cancel();
             }
             if (isLong) {
                 if (nowStatus == PAUSE) {
@@ -197,6 +233,8 @@ public class TimerService extends Service {
             } else {
                 afd = getAssets().openFd("beep-07.mp3");
             }
+            vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//            vib.vibrate(500);
             player = new MediaPlayer();
             player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             player.prepare();
@@ -218,10 +256,14 @@ public class TimerService extends Service {
             notificationChannel.setDescription("channer description");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.GREEN);
-            notificationChannel.enableVibration(false);
-
+            notificationChannel.enableVibration(true);
+            notificationChannel.setVibrationPattern(new long[]{0L});
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(notificationChannel);
+
+
+            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
 
 
             Notification notification = new Notification.Builder(this, "channel_id")
@@ -232,6 +274,8 @@ public class TimerService extends Service {
                     .setSmallIcon(R.drawable.ic_stat_image_timer)
                     .setContentIntent(pIntent)
                     .setAutoCancel(true).build();
+
+
 
 
 //            Intent i = new Intent(this, MainActivity.class);
