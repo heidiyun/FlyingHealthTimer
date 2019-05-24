@@ -36,5 +36,7 @@
     <string name="name_timer">The name of the timer</string>
     <string name="sec">초</string>
     <string name="stop">Stop</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>
