@@ -87,6 +87,7 @@ public class TimerService extends Service {
             nowStatus = intent.getIntExtra("nowStatus", 0);
             Log.d("id", timerModel.id);
 
+
         }
 
 

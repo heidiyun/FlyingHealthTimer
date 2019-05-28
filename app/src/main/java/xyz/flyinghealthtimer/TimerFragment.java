@@ -69,6 +69,7 @@ public class TimerFragment extends BaseFragment {
 
     public TimerFragment(TimerModel timer) {
         this.timerModel = timer;
+
     }
 
     private static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
@@ -185,6 +186,10 @@ public class TimerFragment extends BaseFragment {
 
         updateScreen();
         isRunning = true;
+
+        Intent intent = new Intent(rootView.getContext(), FloatingService.class);
+        rootView.getContext().startService(intent);
+
 
         return rootView;
     }

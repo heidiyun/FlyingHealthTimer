@@ -3,7 +3,10 @@ package xyz.flyinghealthtimer;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ public class MainFragment extends BaseFragment {
     private ListView listTimer;
     private FloatingActionButton fab;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,8 +39,11 @@ public class MainFragment extends BaseFragment {
 
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener((view)->{
-            FragmentController.newFragment(new AddTimerFragment(), R.layout.fragment_edittimer, true);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentController.newFragment(new AddTimerFragment(), R.layout.fragment_edittimer, true);
+            }
         });
 
 
@@ -76,9 +83,11 @@ public class MainFragment extends BaseFragment {
                 FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
             }
         });
-
         return rootView;
     }
+
+
+
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
