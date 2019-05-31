@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class TimerAdapter extends BaseAdapter{
 
 		TextView textRun = (TextView) container.findViewById(R.id.time_run);
 		TextView title = (TextView) container.findViewById(R.id.title);
-		ImageButton playButton = (ImageButton) container.findViewById(R.id.play_button);
+//		ImageButton playButton = (ImageButton) container.findViewById(R.id.play_button);
 		textRun.setText(item.timeRun + " " + getNumEnding(item.timeRun));
 		if(item.timerCount != TimerModel.COUNT_SINGLE_TIMER) {
 			title.setText(item.name);
@@ -82,36 +83,33 @@ public class TimerAdapter extends BaseAdapter{
 			container.findViewById(R.id.time_pause).setVisibility(View.GONE);
 		}
 
-		playButton.setOnClickListener(new View.OnClickListener() {
+		Button floatingTimerButton  = (Button) root.findViewById(R.id.floatingTimerButton);
+		Button intervalTimerButton  = (Button) root.findViewById(R.id.intervalTimerButton);
+
+		final TimerModel timer= getItem(position);
+
+		floatingTimerButton.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				CharSequence[] array = new CharSequence[]{"Floating Timer", "Interval Timer"};
-				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(root.getContext());
-				final TimerModel timer= getItem(position);
-				alertBuilder.setItems(array, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0 :
-								Intent intent = new Intent(root.getContext(), FloatingService.class);
-								Bundle bundle = new Bundle();
-								bundle.putParcelable("timer", (Parcelable) timer);
-								intent.putExtra("timer", bundle);
-								root.getContext().startService(intent);
-								Toast.makeText(mContext, "floating", Toast.LENGTH_SHORT).show();
-								break;
-							case 1 :
-								FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
-								Toast.makeText(mContext, "Interval", Toast.LENGTH_SHORT).show();
-								break;
-
-						}
-					}
-				});
-
-				alertBuilder.create().show();
+				Intent intent = new Intent(root.getContext(), FloatingService.class);
+				Bundle bundle = new Bundle();
+				bundle.putParcelable("timer", (Parcelable) timer);
+				intent.putExtra("timer", bundle);
+				root.getContext().startService(intent);
+				Toast.makeText(mContext, "floating", Toast.LENGTH_SHORT).show();
 			}
 		});
+
+		intervalTimerButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
+				Toast.makeText(mContext, "Interval", Toast.LENGTH_SHORT).show();
+			}
+		});
+
 
 		return container;
 	}
