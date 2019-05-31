@@ -127,7 +127,7 @@ public class FloatingTimerView extends FloatingView {
 //                setStatusBarColor(R.color.yellow);
                 break;
             case RUN:
-//                progressBar.setMax(maxRun);
+                progressBar.setMax(maxRun);
                 statusView.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
                 statusView.setText(R.string.run);
                 progressBar.setProgress(run - 1);
@@ -137,7 +137,7 @@ public class FloatingTimerView extends FloatingView {
 //                setStatusBarColor(R.color.yellow);
                 break;
             case PAUSE:
-//                progressBar.setMax(maxPause);
+                progressBar.setMax(maxPause);
                 statusView.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
                 statusView.setText(R.string.pausa);
                 progressBar.setProgress(pause - 1);
@@ -186,6 +186,7 @@ public class FloatingTimerView extends FloatingView {
         if (event.getY() > this.getHeight() / 2) {
             if (mIsStarted) {
                 getContext().unregisterReceiver(receiver);
+                getContext().stopService(new Intent(getContext(), TimerService.class));
             }
 //         else if(hourSecondMinuteToMilli()!=0){
 //                startTimer();
@@ -194,6 +195,7 @@ public class FloatingTimerView extends FloatingView {
             if(mIsStarted||mMillisRemaining!=0){
                 resetTimer();
             }else{
+                getContext().stopService(new Intent(getContext(), TimerService.class));
                 getContext().stopService(new Intent(getContext(),FloatingService.class));
             }
         }
