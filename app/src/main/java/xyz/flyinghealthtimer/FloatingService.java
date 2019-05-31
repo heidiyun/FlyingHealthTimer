@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
@@ -32,9 +33,13 @@ public class FloatingService extends Service {
             return START_REDELIVER_INTENT;
         }
 
+        Bundle bundle = intent.getBundleExtra("timer");
+        TimerModel timerModel = (TimerModel) bundle.get("timer");
+
+
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        mFloatingView = new FloatingTimerView(this);
+        mFloatingView = new FloatingTimerView(this, timerModel);
         mWindowManager.addView(mFloatingView, mFloatingView.getWindowLayoutParams());
 
         startForeground(NOTIFICATION_ID, createNotification(this));

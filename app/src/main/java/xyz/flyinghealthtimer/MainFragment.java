@@ -79,7 +79,7 @@ public class MainFragment extends BaseFragment {
                 }
                 if(position == parent.getCount()) return;
                 TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
-
+//
                 FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
             }
         });

@@ -72,7 +72,7 @@ public class TimerFragment extends BaseFragment {
 
     }
 
-    private static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
+     static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
         private static final String DEFAULT_PATTERN = "%d";
 
         @Override
@@ -282,6 +282,7 @@ public class TimerFragment extends BaseFragment {
 
     }
 
+
     private void setStatusBarColor(int idColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = mActivity.getWindow();
@@ -317,6 +318,8 @@ public class TimerFragment extends BaseFragment {
             toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 
         }
+
+        rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
         super.onDestroy();
     }
 

@@ -2,6 +2,7 @@ package xyz.flyinghealthtimer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;

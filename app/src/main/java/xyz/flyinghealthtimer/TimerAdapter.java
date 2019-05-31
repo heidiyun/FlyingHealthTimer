@@ -1,12 +1,21 @@
 package xyz.flyinghealthtimer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimerAdapter extends BaseAdapter{
@@ -39,13 +48,13 @@ public class TimerAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View container = convertView;
 		if(container == null){
 			container = LayoutInflater.from(mContext).inflate(R.layout.item_timer_list, null);
 		}
 
-		View root = container.findViewById(R.id.root);
+		final View root = container.findViewById(R.id.root);
 		if(position == getCount()){
 			root.setVisibility(View.GONE);
 			ViewGroup.LayoutParams lp = container.getLayoutParams();
@@ -57,6 +66,7 @@ public class TimerAdapter extends BaseAdapter{
 
 		TextView textRun = (TextView) container.findViewById(R.id.time_run);
 		TextView title = (TextView) container.findViewById(R.id.title);
+		ImageButton playButton = (ImageButton) container.findViewById(R.id.play_button);
 		textRun.setText(item.timeRun + " " + getNumEnding(item.timeRun));
 		if(item.timerCount != TimerModel.COUNT_SINGLE_TIMER) {
 			title.setText(item.name);
@@ -72,8 +82,41 @@ public class TimerAdapter extends BaseAdapter{
 			container.findViewById(R.id.time_pause).setVisibility(View.GONE);
 		}
 
+		playButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				CharSequence[] array = new CharSequence[]{"Floating Timer", "Interval Timer"};
+				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(root.getContext());
+				final TimerModel timer= getItem(position);
+				alertBuilder.setItems(array, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0 :
+								Intent intent = new Intent(root.getContext(), FloatingService.class);
+								Bundle bundle = new Bundle();
+								bundle.putParcelable("timer", (Parcelable) timer);
+								intent.putExtra("timer", bundle);
+								root.getContext().startService(intent);
+								Toast.makeText(mContext, "floating", Toast.LENGTH_SHORT).show();
+								break;
+							case 1 :
+								FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
+								Toast.makeText(mContext, "Interval", Toast.LENGTH_SHORT).show();
+								break;
+
+						}
+					}
+				});
+
+				alertBuilder.create().show();
+			}
+		});
+
 		return container;
 	}
+
+
 
 	private String getNumEnding(int t)
 	{
