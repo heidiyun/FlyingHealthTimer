@@ -51,33 +51,8 @@ public class FloatingTimerView extends FloatingView {
         mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
         this.timerModel = timerModel;
 
-        context.registerReceiver(receiver, new IntentFilter(TimerService.NOTIFICATION));
+        startTimer();
 
-        rest = timerModel.timeRest;
-        run = timerModel.timeRun;
-        pause = timerModel.timePause;
-        maxRest = timerModel.timeRest;
-        maxRun = timerModel.timeRun;
-        maxPause = timerModel.timePause;
-
-        count = (TextView) findViewById(R.id.timer_round);
-
-
-        progressBar = (CircleProgressBar) findViewById(R.id.circleProgressbar_floating);
-        progressBar.setProgressFormatter(new TimerFragment.MyProgressFormatter());
-
-        if (!isMyServiceRunning(TimerService.class)) {
-            Intent i = new Intent(getContext(), TimerService.class);
-            i.putExtra("rest", timerModel.timeRest);
-            i.putExtra("run", timerModel.timeRun);
-            i.putExtra("pause", timerModel.timePause);
-            i.putExtra("count", timerModel.timerCount);
-            i.putExtra("id", timerModel.id);
-            trikita.log.Log.d("id dd", timerModel.id);
-            context.startService(i);
-            isRunning = true;
-
-        }
 
     }
 
@@ -103,7 +78,7 @@ public class FloatingTimerView extends FloatingView {
 
         if (timerModel == null) return;
         if (isRunning) {
-//            fabStop.setImageResource(R.drawable.ic_pause_button);
+
         } else {
 //            fabStop.setImageResource(R.drawable.ic_play_button);
         }
@@ -182,23 +157,57 @@ public class FloatingTimerView extends FloatingView {
         return false;
     }
 
-    private void touchButton(MotionEvent event){
+    private void touchButton(MotionEvent event) {
         if (event.getY() > this.getHeight() / 2) {
             if (mIsStarted) {
-                getContext().unregisterReceiver(receiver);
+                mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
+//                getContext().unregisterReceiver(receiver);
                 getContext().stopService(new Intent(getContext(), TimerService.class));
+                mIsStarted = false;
+            } else {
+                reStartTimer();
+                mIsStarted = true;
             }
-//         else if(hourSecondMinuteToMilli()!=0){
-//                startTimer();
-//            }
+
         } else {
-            if(mIsStarted||mMillisRemaining!=0){
+            if (mIsStarted) {
                 resetTimer();
-            }else{
+            } else {
                 getContext().stopService(new Intent(getContext(), TimerService.class));
-                getContext().stopService(new Intent(getContext(),FloatingService.class));
+                getContext().stopService(new Intent(getContext(), FloatingService.class));
+                getContext().unregisterReceiver(receiver);
             }
         }
+    }
+
+    private void reStartTimer() {
+        if (!isMyServiceRunning(TimerService.class)) {
+
+            Intent i = new Intent(getContext(), TimerService.class);
+            i.putExtra("status", 1);
+            i.putExtra("rest", maxRest);
+            i.putExtra("run", maxRun);
+            i.putExtra("pause", maxPause);
+            i.putExtra("count", timerModel.timerCount);
+            i.putExtra("id", timerModel.id);
+            i.putExtra("nowRest", rest);
+            i.putExtra("nowRun", run);
+            i.putExtra("nowPause", pause);
+            i.putExtra("nowCount", nowRepeat);
+            i.putExtra("nowStatus", nowStatus);
+
+            trikita.log.Log.d("id dd", timerModel.id);
+            getContext().startService(i);
+
+
+//                        Intent intent = new Intent(rootView.getContext(), timerService.getClass());
+
+//                        rootView.getContext().startService(intent);
+        }
+
+        isRunning = true;
+
+        mLayout.setBackgroundResource(R.drawable.ic_timer_started);
     }
 
     private void startTimer() {
@@ -210,26 +219,38 @@ public class FloatingTimerView extends FloatingView {
 //        }
 //        mPickers.setVisibility(View.INVISIBLE);
 //        mCountDownTimer.start();
-        mTimerView.setVisibility(VISIBLE);
+//        mTimerView.setVisibility(VISIBLE);
         mLayout.setBackgroundResource(R.drawable.ic_timer_started);
     }
 
     private void stopTimer() {
         mIsStarted = false;
-//        mMillisRemaining=mCountDownTimer.getMillisRemaining();
-//        mCountDownTimer.cancel();
+
         mLayout.setBackgroundResource(R.drawable.ic_timer_stopped);
+
+
     }
 
     private void resetTimer() {
         mIsStarted = false;
-        mMillisRemaining = 0;
+
+
+        getContext().stopService(new Intent(getContext(), TimerService.class));
+        nowStatus = REST;
+        rest = maxRest;
+        run = maxRun;
+        pause = maxPause;
+        nowRepeat = 0;
+        isRunning = false;
+        mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
+        updateScreen();
+
+//        mMillisRemaining = 0;
 //        if(mCountDownTimer!=null)mCountDownTimer.cancel();
 //        mPickers.setVisibility(View.VISIBLE);
-        mTimerView.setVisibility(INVISIBLE);
+//        mTimerView.setVisibility(INVISIBLE);
 //        mHourPicker.reset();
 //        mSecondPicker.reset();
 //        mMinutePicker.reset();
-        mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
     }
 }

@@ -8,7 +8,7 @@
         android:pathData="M431,425m422.5,0a422.5,422.5 0,1 1,-845 0a422.5,422.5 0,1 1,845 0"
         android:strokeAlpha="1" android:strokeColor="#00000000"
         android:strokeLineCap="round" android:strokeLineJoin="round" android:strokeWidth="1"/>
-    <path android:fillAlpha="1" android:fillColor="@color/colorPrimary"
+    <path android:fillAlpha="1" android:fillColor="#ffffff"
         android:pathData="M429,421m-414.3,0a414.3,414.3 0,1 1,828.6 0a414.3,414.3 0,1 1,-828.6 0"
         android:strokeAlpha="1" android:strokeColor="#aaaaaa"
         android:strokeLineCap="round" android:strokeLineJoin="round" android:strokeWidth="1"/>
