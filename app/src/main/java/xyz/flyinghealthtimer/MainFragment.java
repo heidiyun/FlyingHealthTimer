@@ -30,6 +30,7 @@ public class MainFragment extends BaseFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
+
         setTitle(R.string.app_name);
         actionBar.setDisplayHomeAsUpEnabled(false);
 
@@ -42,6 +43,7 @@ public class MainFragment extends BaseFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 FragmentController.newFragment(new AddTimerFragment(), R.layout.fragment_edittimer, true);
             }
         });
