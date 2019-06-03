@@ -129,16 +129,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getPermissionAndStartService(boolean isShowOverlayPermission) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-//            startService();
+
         } else {
             if (Settings.canDrawOverlays(this)) {
-//                startService();
                 return;
             }
             if (isShowOverlayPermission) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName()));
                 startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
-            }
+        }
         }
     }
 
