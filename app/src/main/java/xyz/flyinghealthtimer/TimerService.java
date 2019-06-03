@@ -266,7 +266,6 @@ public class TimerService extends Service {
 
             RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
 
-
             Notification notification = new Notification.Builder(this, "channel_id")
                     .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
                     .setContentText(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER ?
@@ -275,7 +274,6 @@ public class TimerService extends Service {
                     .setSmallIcon(R.drawable.ic_stat_image_timer)
                     .setContentIntent(pIntent)
                     .setAutoCancel(true).build();
-
 
 
 
