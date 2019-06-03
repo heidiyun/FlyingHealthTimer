@@ -77,7 +77,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(isMyServiceRunning(TimerService.class)) {
-                    getActivity().stopService(new Intent(getContext(), TimerService.class));
+                    rootView.getContext().stopService(new Intent(rootView.getContext(), TimerService.class));
                 }
                 if(position == parent.getCount()) return;
                 TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);

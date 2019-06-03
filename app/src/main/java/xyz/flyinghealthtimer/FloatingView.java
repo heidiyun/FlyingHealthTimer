@@ -19,6 +19,7 @@ public class FloatingView extends FrameLayout {
     private float mLocalTouchY = 0;
 
     public FloatingView(final Context context) {
+
         super(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mLayoutParams = new WindowManager.LayoutParams();
