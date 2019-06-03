@@ -1,7 +1,9 @@
 package xyz.flyinghealthtimer;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +38,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         getPermissionAndStartService(true);
+
+        SharedPreferences sharedPreferences =
+                getSharedPreferences("xyz.heidiyun", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("sound", true);
+        editor.putBoolean("notification", true);
+        editor.putBoolean("vibrator", false);
+
+        editor.putBoolean("tts", false);
+        editor.apply();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (isShowOverlayPermission) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName()));
                 startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
-        }
+            }
         }
     }
 
@@ -152,12 +164,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_profile:
-                FragmentController.newFragment(new MainFragment(),1, false);
+                FragmentController.newFragment(new MainFragment(), 1, false);
                 break;
-            case R.id.nav_pullrequest :
-                FragmentController.newFragment(new StopWatchFragment(),1, false);
+            case R.id.nav_pullrequest:
+                FragmentController.newFragment(new StopWatchFragment(), 1, false);
                 break;
             case R.id.nav_issue:
+                FragmentController.newFragment(new SettingFragment(), R.layout.fragment_setting, true);
                 break;
 
 
