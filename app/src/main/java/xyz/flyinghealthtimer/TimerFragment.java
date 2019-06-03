@@ -174,7 +174,6 @@ public class TimerFragment extends BaseFragment {
                 nowRepeat = 0;
                 isRunning = false;
                 updateScreen();
-
             }
         });
 
@@ -368,6 +367,13 @@ public class TimerFragment extends BaseFragment {
                 pauseTimer = true;
 
                 FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
+                break;
+            case R.id.action_delete:
+                pauseTimer = true;
+                FragmentController.backFragment();
+
+                //FragmentController.backFragment();
+                TimerApi.deleteTimer(mActivity, timerModel);
                 break;
         }
         return true;
