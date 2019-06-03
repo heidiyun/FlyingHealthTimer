@@ -108,7 +108,7 @@ public class AddTimerFragment extends BaseFragment {
                     TimerApi.addTimer(mActivity, timer);
                     showToast(R.string.toast_timer_created);
                     Utils.hideKeyboard(mActivity);
-                    FragmentController.backFragmet();
+                    FragmentController.backFragment();
                 }catch (NumberFormatException e) {
                     timeRun.setText("");
                     timePause.setText("");

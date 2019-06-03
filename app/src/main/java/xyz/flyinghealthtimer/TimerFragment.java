@@ -3,9 +3,11 @@ package xyz.flyinghealthtimer;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,7 +43,9 @@ public class TimerFragment extends BaseFragment {
     private static final int FINISH = 3;
 
     static boolean isForeground = true;
+    private FloatingService floatingService = new FloatingService();
 
+    private TimerService timerService;
     static Boolean isRunning = false;
     private TimerModel timerModel;
     private TextView statusView;
@@ -63,6 +68,8 @@ public class TimerFragment extends BaseFragment {
     private Intent i;
     private ImageButton fabStop;
     private ImageButton fabStart;
+    private boolean isService = false;
+
 
     public TimerFragment() {
     }
@@ -90,7 +97,7 @@ public class TimerFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        isForeground  = true;
+        isForeground = true;
     }
 
     @Override
@@ -125,6 +132,7 @@ public class TimerFragment extends BaseFragment {
                     isRunning = false;
                 } else {
                     if (!isMyServiceRunning(TimerService.class)) {
+
                         Intent i = new Intent(getContext(), TimerService.class);
                         i.putExtra("status", 1);
                         i.putExtra("rest", maxRest);
@@ -137,14 +145,19 @@ public class TimerFragment extends BaseFragment {
                         i.putExtra("nowPause", pause);
                         i.putExtra("nowCount", nowRepeat);
                         i.putExtra("nowStatus", nowStatus);
+
                         Log.d("id dd", timerModel.id);
                         getContext().startService(i);
+
+
+//                        Intent intent = new Intent(rootView.getContext(), timerService.getClass());
+
+//                        rootView.getContext().startService(intent);
                     }
                     isRunning = true;
-
-
                 }
                 updateScreen();
+
 
 //                FragmentController.backFragmet();
             }
@@ -161,7 +174,6 @@ public class TimerFragment extends BaseFragment {
                 nowRepeat = 0;
                 isRunning = false;
                 updateScreen();
-
             }
         });
 
@@ -181,18 +193,36 @@ public class TimerFragment extends BaseFragment {
             i.putExtra("count", timerModel.timerCount);
             i.putExtra("id", timerModel.id);
             Log.d("id dd", timerModel.id);
-            getContext().startService(i);
+            rootView.getContext().startService(i);
+//            rootView.getContext().bindService(i, connection, Context.BIND_AUTO_CREATE);
+
+//            Intent intent = new Intent(rootView.getContext(), floatingService.getClass());
+//              service 객체에서 받아온 정보를 intent에 넣어주면 되나?
+
+//            rootView.getContext().startService(intent);
+
         }
 
         updateScreen();
         isRunning = true;
 
-        Intent intent = new Intent(rootView.getContext(), FloatingService.class);
-        rootView.getContext().startService(intent);
-
-
         return rootView;
     }
+
+//    ServiceConnection connection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            TimerService.LocalBinder binder = (TimerService.LocalBinder) service;
+//            timerService = binder.getService();
+//            isService = true;
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            isService = false;
+//
+//        }
+//    };
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
@@ -212,7 +242,6 @@ public class TimerFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-
                 Log.d(bundle);
                 Log.d(intent);
                 nowStatus = bundle.getInt("status", 0);
@@ -221,14 +250,13 @@ public class TimerFragment extends BaseFragment {
                 pause = bundle.getInt("pause", 0);
                 nowRepeat = bundle.getInt("nowRepeat", 0);
                 updateScreen();
-                Log.d("BroadcastReceiver", "BroadcastReceiver");
             }
         }
     };
 
     private void updateScreen() {
-        if (timerModel == null) return;
 
+        if (timerModel == null) return;
         if (isRunning) {
             fabStop.setImageResource(R.drawable.ic_pause_button);
         } else {
@@ -244,6 +272,7 @@ public class TimerFragment extends BaseFragment {
         Resources res = getActivity().getResources();
         switch (nowStatus) {
             case REST:
+
                 statusView.setText(R.string.rest);
                 statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setMax(maxRest);
@@ -305,7 +334,6 @@ public class TimerFragment extends BaseFragment {
         super.onPause();
         mActivity.unregisterReceiver(receiver);
         pauseTimer = true;
-
         mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         setStatusBarColor(R.color.colorPrimaryDark);
@@ -317,6 +345,10 @@ public class TimerFragment extends BaseFragment {
         if (toolbar != null) {
             toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 
+        }
+
+        if (isService) {
+            isService = false;
         }
 
         rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
@@ -335,6 +367,13 @@ public class TimerFragment extends BaseFragment {
                 pauseTimer = true;
 
                 FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
+                break;
+            case R.id.action_delete:
+                pauseTimer = true;
+                FragmentController.backFragment();
+
+                //FragmentController.backFragment();
+                TimerApi.deleteTimer(mActivity, timerModel);
                 break;
         }
         return true;

@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.WindowManager;
+
+import java.util.Timer;
 
 public class FloatingService extends Service {
 
@@ -17,7 +20,7 @@ public class FloatingService extends Service {
     }
 
     private WindowManager mWindowManager;
-    private FloatingTimerView mFloatingView;
+    static public FloatingTimerView mFloatingView ;
     private static final int NOTIFICATION_ID = 101;
 
     @Override
@@ -28,6 +31,8 @@ public class FloatingService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+
+        Log.i(FloatingTimerView.class.getName(), "onStartCommand");
 
         if(mWindowManager!=null){
             return START_REDELIVER_INTENT;
@@ -45,6 +50,8 @@ public class FloatingService extends Service {
         startForeground(NOTIFICATION_ID, createNotification(this));
         return START_REDELIVER_INTENT;
     }
+
+
 
     private static Notification createNotification(Context context) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

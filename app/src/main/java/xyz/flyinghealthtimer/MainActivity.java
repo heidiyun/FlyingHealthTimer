@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (stop) {
                 stopService(new Intent(this, TimerService.class));
-                FragmentController.backFragmet();
+                FragmentController.backFragment();
                 return;
             }
             List<TimerModel> timerModelList = TimerApi.getListTimers(this);
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case android.R.id.home:
                 Utils.hideKeyboard(this);
-                FragmentController.backFragmet();
+                FragmentController.backFragment();
                 break;
         }
 

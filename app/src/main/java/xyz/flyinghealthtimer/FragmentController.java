@@ -58,7 +58,7 @@ public class FragmentController {
     }
 
 
-    public static boolean backFragmet() {
+    public static boolean backFragment() {
         final int WHAT = 1;
         Handler handler = new Handler() {
             @Override
@@ -70,9 +70,6 @@ public class FragmentController {
                 }
             }
         };
-        if (mFragmentManager.getBackStackEntryCount() == 1) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-        }
         handler.sendEmptyMessage(WHAT);
 
         if (mFragmentManager.getBackStackEntryCount() > 0) {
