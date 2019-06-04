@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -24,6 +25,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import trikita.log.Log;
+import xyz.flyinghealthtimer.MainActivity;
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 
 public class TimerService extends Service {
@@ -54,9 +59,18 @@ public class TimerService extends Service {
     private Boolean isTTS;
     private Boolean isVibrator;
 
+    private final IBinder mBinder = new LocalBinder();
+
+    class LocalBinder extends Binder {
+
+        TimerService getService() {
+            return TimerService.this;
+        }
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 
 
@@ -76,7 +90,7 @@ public class TimerService extends Service {
         Log.d(LOG_TAG, "onStartCommand");
         int status = intent.getIntExtra("status", 0);
         if (status == 0) {
-            timerModel.timeRest = intent.getIntExtra("rest", 0);
+        timerModel.timeRest = intent.getIntExtra("rest", 0);
             timerModel.timeRun = intent.getIntExtra("run", 0);
             timerModel.timePause = intent.getIntExtra("pause", 0);
             timerModel.timerCount = intent.getIntExtra("count", 0);

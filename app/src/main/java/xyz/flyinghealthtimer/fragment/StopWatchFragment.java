@@ -5,10 +5,12 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import xyz.flyinghealthtimer.R;
@@ -25,9 +27,9 @@ public class StopWatchFragment extends BaseFragment {
 
     TextView mSplit;
 
-    Button mBtnStart;
+    ImageButton mBtnStart;
 
-    Button mBtnSplit;
+    ImageButton mBtnSplit;
 
     //스톱워치의 상태를 위한 상수
 
@@ -43,7 +45,7 @@ public class StopWatchFragment extends BaseFragment {
 
     long mPauseTime;
 
-    int mSplitCount;
+    int mSplitCount = 1;
 
 
     @Nullable
@@ -60,8 +62,9 @@ public class StopWatchFragment extends BaseFragment {
         mEllapse = (TextView) view.findViewById(R.id.ellapse);
 
         mSplit = (TextView) view.findViewById(R.id.split);
+        mSplit.setMovementMethod(new ScrollingMovementMethod());
 
-        mBtnStart = (Button) view.findViewById(R.id.btnstart);
+        mBtnStart = (ImageButton) view.findViewById(R.id.btnstart);
         mBtnStart.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,7 +73,7 @@ public class StopWatchFragment extends BaseFragment {
             }
         });
 
-        mBtnSplit = (Button) view.findViewById(R.id.btnsplit);
+        mBtnSplit = (ImageButton) view.findViewById(R.id.btnsplit);
         mBtnSplit.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -128,22 +131,13 @@ public class StopWatchFragment extends BaseFragment {
             case R.id.btnstart:
 
                 switch (mStatus) {
-
-                    //IDLE상태이면
-
                     case IDLE:
-
-                        //현재 값을 세팅해주고
-
                         mBaseTime = SystemClock.elapsedRealtime();
-
-                        //핸드러로 메시지를 보낸다
-
                         mTimer.sendEmptyMessage(0);
 
-                        //시작을 중지로 바꾸고
 
-                        mBtnStart.setText("중지");
+                        mBtnStart.setImageResource(R.drawable.ic_pause_button);
+                        mBtnSplit.setImageResource(R.drawable.ic_stat_image_timer);
 
                         //옆버튼의 Enable을 푼 다음
 
@@ -171,10 +165,9 @@ public class StopWatchFragment extends BaseFragment {
 
 
                         //버튼 텍스트를 바꿔줌
+                        mBtnStart.setImageResource(R.drawable.ic_play_button);
 
-                        mBtnStart.setText("시작");
-
-                        mBtnSplit.setText("초기화");
+                        mBtnSplit.setImageResource(R.drawable.ic_reset);
 
                         mStatus = PAUSE;//상태를 멈춤으로 표시
 
@@ -200,9 +193,9 @@ public class StopWatchFragment extends BaseFragment {
 
                         //텍스트 수정
 
-                        mBtnStart.setText("중지");
+                        mBtnStart.setImageResource(R.drawable.ic_pause_button);
 
-                        mBtnSplit.setText("기록");
+                        mBtnSplit.setImageResource(R.drawable.ic_stat_image_timer);
 
                         mStatus = RUNNING;
 
@@ -229,7 +222,7 @@ public class StopWatchFragment extends BaseFragment {
 
                         //+연산자로 이어붙임
 
-                        sSplit += String.format("%d => %s\n", mSplitCount, getEllapse());
+                        sSplit += String.format("%d  >>  %s\n", mSplitCount, getEllapse());
 
 
                         //텍스트뷰의 값을 바꿔줌
@@ -237,6 +230,14 @@ public class StopWatchFragment extends BaseFragment {
                         mSplit.setText(sSplit);
 
                         mSplitCount++;
+
+                        final int scrollAmount = mSplit.getLayout().getLineTop(mSplit.getLineCount()) - mSplit.getHeight();
+                        // if there is no need to scroll, scrollAmount will be <=0
+                        if (scrollAmount > 0)
+                            mSplit.scrollTo(0, scrollAmount);
+                        else
+                            mSplit.scrollTo(0, 0);
+
 
                         break;
 
@@ -249,12 +250,12 @@ public class StopWatchFragment extends BaseFragment {
 
                         //처음상태로 원상복귀시킴
 
-                        mBtnStart.setText("시작");
+                        mBtnStart.setImageResource(R.drawable.ic_play_button);
 
-                        mBtnSplit.setText("기록");
+                        mBtnSplit.setImageResource(R.drawable.ic_reset);
 
                         mEllapse.setText("00:00:00");
-
+                        mSplitCount = 1;
                         mStatus = IDLE;
 
                         mSplit.setText("");

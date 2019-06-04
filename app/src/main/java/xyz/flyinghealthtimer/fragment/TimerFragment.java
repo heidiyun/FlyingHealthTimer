@@ -31,9 +31,9 @@ import com.dinuscxj.progressbar.CircleProgressBar;
 import trikita.log.Log;
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.utils.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
-import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.utils.TimerApi;
 
 @SuppressLint("ValidFragment")

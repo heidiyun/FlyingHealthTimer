@@ -16,10 +16,10 @@ import java.util.Date;
 
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.fragment.adapter.TimerAdapter;
 import xyz.flyinghealthtimer.utils.TimerApi;
 import xyz.flyinghealthtimer.utils.TimerModel;
-import xyz.flyinghealthtimer.service.TimerService;
 
 public class MainFragment extends BaseFragment {
 
