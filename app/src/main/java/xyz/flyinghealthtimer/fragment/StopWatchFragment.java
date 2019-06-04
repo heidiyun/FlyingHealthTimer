@@ -9,12 +9,10 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.fragment.BaseFragment;
 
 public class StopWatchFragment extends BaseFragment {
 
@@ -29,7 +27,8 @@ public class StopWatchFragment extends BaseFragment {
 
     ImageButton mBtnStart;
 
-    ImageButton mBtnSplit;
+    TextView mBtnSplit;
+    ImageButton mBtnReset;
 
     //스톱워치의 상태를 위한 상수
 
@@ -73,8 +72,16 @@ public class StopWatchFragment extends BaseFragment {
             }
         });
 
-        mBtnSplit = (ImageButton) view.findViewById(R.id.btnsplit);
+        mBtnSplit = (TextView) view.findViewById(R.id.btnsplit);
         mBtnSplit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mOnClick(v);
+            }
+        });
+        mBtnReset = (ImageButton) view.findViewById(R.id.btnreset);
+        mBtnReset.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -137,8 +144,6 @@ public class StopWatchFragment extends BaseFragment {
 
 
                         mBtnStart.setImageResource(R.drawable.ic_pause_button);
-                        mBtnSplit.setImageResource(R.drawable.ic_stat_image_timer);
-
                         //옆버튼의 Enable을 푼 다음
 
                         mBtnSplit.setEnabled(true);
@@ -167,8 +172,6 @@ public class StopWatchFragment extends BaseFragment {
                         //버튼 텍스트를 바꿔줌
                         mBtnStart.setImageResource(R.drawable.ic_play_button);
 
-                        mBtnSplit.setImageResource(R.drawable.ic_reset);
-
                         mStatus = PAUSE;//상태를 멈춤으로 표시
 
                         break;
@@ -195,8 +198,6 @@ public class StopWatchFragment extends BaseFragment {
 
                         mBtnStart.setImageResource(R.drawable.ic_pause_button);
 
-                        mBtnSplit.setImageResource(R.drawable.ic_stat_image_timer);
-
                         mStatus = RUNNING;
 
                         break;
@@ -221,7 +222,7 @@ public class StopWatchFragment extends BaseFragment {
 
                         //+연산자로 이어붙임
 
-                        sSplit += String.format("%d  >>  %s\n", mSplitCount, getEllapse());
+                        sSplit += String.format("\t%d\t%s\n", mSplitCount, getEllapse());
 
 
                         //텍스트뷰의 값을 바꿔줌
@@ -239,7 +240,11 @@ public class StopWatchFragment extends BaseFragment {
 
 
                         break;
+                }
 
+
+            case R.id.btnreset :
+                switch (mStatus) {
                     case PAUSE://여기서는 초기화버튼이 됨
 
                         //핸들러를 없애고
@@ -250,8 +255,6 @@ public class StopWatchFragment extends BaseFragment {
                         //처음상태로 원상복귀시킴
 
                         mBtnStart.setImageResource(R.drawable.ic_play_button);
-
-                        mBtnSplit.setImageResource(R.drawable.ic_reset);
 
                         mEllapse.setText("00:00:00");
                         mSplitCount = 1;
@@ -264,7 +267,6 @@ public class StopWatchFragment extends BaseFragment {
                         break;
 
                 }
-
                 break;
 
         }
