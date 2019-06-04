@@ -9,7 +9,7 @@
 
     android:orientation="vertical"
 
-    tools:context=".StopWatchFragment"
+    tools:context=".fragment.StopWatchFragment"
 
     >
 

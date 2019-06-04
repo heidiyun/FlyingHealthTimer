@@ -1,13 +1,11 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -15,7 +13,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +29,12 @@ import android.widget.TextView;
 import com.dinuscxj.progressbar.CircleProgressBar;
 
 import trikita.log.Log;
+import xyz.flyinghealthtimer.FragmentController;
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.service.FloatingService;
+import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.TimerApi;
 
 @SuppressLint("ValidFragment")
 public class TimerFragment extends BaseFragment {
@@ -42,11 +45,11 @@ public class TimerFragment extends BaseFragment {
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
 
-    static boolean isForeground = true;
+    public static boolean isForeground = true;
     private FloatingService floatingService = new FloatingService();
 
     private TimerService timerService;
-    static Boolean isRunning = false;
+    public static Boolean isRunning = false;
     private TimerModel timerModel;
     private TextView statusView;
     private TextView time;
@@ -79,7 +82,7 @@ public class TimerFragment extends BaseFragment {
 
     }
 
-     static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
+     public static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
         private static final String DEFAULT_PATTERN = "%d";
 
         @Override

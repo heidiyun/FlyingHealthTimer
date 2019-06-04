@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment;
 
 
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import xyz.flyinghealthtimer.R;
 
 
 public class BaseFragment extends Fragment {

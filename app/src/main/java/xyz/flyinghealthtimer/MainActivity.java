@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -23,6 +22,15 @@ import android.view.MenuItem;
 import java.util.List;
 
 import trikita.log.Log;
+import xyz.flyinghealthtimer.fragment.MainFragment;
+import xyz.flyinghealthtimer.fragment.SettingFragment;
+import xyz.flyinghealthtimer.fragment.StopWatchFragment;
+import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.fragment.adapter.SectionPageAdapter;
+import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.TimerApi;
+import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.utils.Utils;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -167,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FragmentController.newFragment(new MainFragment(), 1, false);
                 break;
             case R.id.nav_pullrequest:
-                FragmentController.newFragment(new StopWatchFragment(), 1, false);
+                FragmentController.newFragment(new StopWatchFragment(), R.layout.fragment_stopwatch, false);
                 break;
             case R.id.nav_issue:
                 FragmentController.newFragment(new SettingFragment(), R.layout.fragment_setting, true);

@@ -6,13 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
-import org.w3c.dom.Text;
+import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.service.FloatingService;
+import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 public class FloatingTimerView extends FloatingView {
 

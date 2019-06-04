@@ -1,35 +1,35 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
+
+import xyz.flyinghealthtimer.FragmentController;
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.service.FloatingService;
 
 public class TimerAdapter extends BaseAdapter{
 	
 	private List<TimerModel> list;
 	private Context mContext;
+	private Boolean isActivity;
 
-	public TimerAdapter(Context mContext, List<TimerModel> list){
+	public TimerAdapter(Context mContext, List<TimerModel> list, Boolean isActivity){
 		this.list = list;
 		this.mContext = mContext;
+		this.isActivity = isActivity;
 	}
 	
 	public void setList(List<TimerModel> list){
@@ -89,6 +89,10 @@ public class TimerAdapter extends BaseAdapter{
 		Button floatingTimerButton  = (Button) root.findViewById(R.id.floatingTimerButton);
 		Button intervalTimerButton  = (Button) root.findViewById(R.id.intervalTimerButton);
 
+		if (isActivity) {
+			floatingTimerButton.setVisibility(View.GONE);
+			intervalTimerButton.setVisibility(View.GONE);
+		}
 		final TimerModel timer= getItem(position);
 
 		floatingTimerButton.setOnClickListener(new View.OnClickListener() {

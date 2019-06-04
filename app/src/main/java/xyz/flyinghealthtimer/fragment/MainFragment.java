@@ -1,12 +1,9 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +11,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.Date;
+
+import xyz.flyinghealthtimer.FragmentController;
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.adapter.TimerAdapter;
+import xyz.flyinghealthtimer.utils.TimerApi;
+import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.service.TimerService;
 
 public class MainFragment extends BaseFragment {
 
@@ -70,7 +73,7 @@ public class MainFragment extends BaseFragment {
         }
 
         listTimer = (ListView) rootView.findViewById(R.id.listView_timer);
-        final TimerAdapter adapter = new TimerAdapter(mActivity, TimerApi.getListTimers(mActivity));
+        final TimerAdapter adapter = new TimerAdapter(mActivity, TimerApi.getListTimers(mActivity), false);
         listTimer.setAdapter(adapter);
 
         listTimer.setOnItemClickListener(new AdapterView.OnItemClickListener() {

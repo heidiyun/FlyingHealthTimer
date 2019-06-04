@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.BaseFragment;
 
 public class SettingFragment extends BaseFragment {
 

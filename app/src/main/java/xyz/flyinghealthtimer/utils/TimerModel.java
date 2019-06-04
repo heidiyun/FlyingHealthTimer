@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,7 +14,7 @@ public class TimerModel implements Parcelable {
     public int timePause;
     public int timerCount;
 
-    TimerModel() {
+    public TimerModel() {
 
     }
 

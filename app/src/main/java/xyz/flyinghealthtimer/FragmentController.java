@@ -5,7 +5,8 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+import xyz.flyinghealthtimer.fragment.adapter.SectionPageAdapter;
 
 public class FragmentController {
 

@@ -1,8 +1,7 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,6 +10,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 
 public class Storage {

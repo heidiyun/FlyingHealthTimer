@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,7 +20,7 @@ public class SectionPageAdapter  extends FragmentPagerAdapter {
         return fragmentTitleList.get(position);
     }
 
-    void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title) {
         fragmentList.add(fragment);
         fragmentTitleList.add(title);
     }

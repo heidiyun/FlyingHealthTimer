@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.utils;
 
 import android.app.Activity;
 import android.content.Context;

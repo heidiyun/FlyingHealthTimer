@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.service;
 
 import android.app.Notification;
 import android.app.Service;
@@ -10,7 +10,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.WindowManager;
 
-import java.util.Timer;
+import xyz.flyinghealthtimer.FloatingTimerView;
+import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 public class FloatingService extends Service {
 
