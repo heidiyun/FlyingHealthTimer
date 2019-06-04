@@ -200,7 +200,6 @@ public class StopWatchFragment extends BaseFragment {
                         mStatus = RUNNING;
 
                         break;
-
                 }
 
                 break;
