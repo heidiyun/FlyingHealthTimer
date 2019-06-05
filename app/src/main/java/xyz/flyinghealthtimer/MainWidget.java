@@ -21,10 +21,10 @@ public class MainWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = "Hello";
+        //CharSequence widgetText = "Hello";
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
-        views.setTextViewText(R.id.start_button, widgetText);
+        //views.setTextViewText(R.id.widget_layout, widgetText);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -62,7 +62,7 @@ public class MainWidget extends AppWidgetProvider {
         if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {
             Log.i("SSS", "herererer");
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
-            views.setOnClickPendingIntent(R.id.start_button, buildURIIntent(context));
+            views.setOnClickPendingIntent(R.id.widget_layout, buildURIIntent(context));
             remoteViews = views;
             this.onUpdate(context, AppWidgetManager.getInstance(context),appwidgetIds);
         }
