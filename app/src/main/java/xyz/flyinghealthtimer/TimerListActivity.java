@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import java.util.Date;
-
 import xyz.flyinghealthtimer.fragment.adapter.TimerAdapter;
 import xyz.flyinghealthtimer.service.FloatingService;
 import xyz.flyinghealthtimer.service.TimerService;

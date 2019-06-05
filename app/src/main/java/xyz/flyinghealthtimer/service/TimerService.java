@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
@@ -312,6 +313,7 @@ public class TimerService extends Service {
                     .setSmallIcon(R.drawable.ic_stat_image_timer)
                     .setContentIntent(pIntent)
                     .setAutoCancel(true).build();
+
 
 
 //            Intent i = new Intent(this, MainActivity.class);
