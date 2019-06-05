@@ -53,7 +53,7 @@ public class FloatingTimerView extends FloatingView {
         super(context);
         inflate(context, R.layout.countdown_timer_view, this);
         mTimerView=(TextView)findViewById(R.id.timer_text_view);
-        mLayout = (FrameLayout) findViewById(R.id.frame);
+        mLayout = (LinearLayout) findViewById(R.id.frame);
         mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
         this.timerModel = timerModel;
 
