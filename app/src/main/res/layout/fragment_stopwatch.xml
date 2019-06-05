@@ -24,43 +24,64 @@
 
         android:layout_marginTop="50sp"
 
-        android:layout_marginBottom="50sp"
-
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="00:00:00"
-        android:textSize="40sp" />
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/split"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="20"
+        android:scrollbars="vertical"
+        android:textAlignment="center"
+
+        android:textSize="20sp" />
 
     <LinearLayout
-
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
 
+        android:layout_weight="1"
+
         >
 
         <ImageButton
-            android:id="@+id/btnsplit"
+            android:id="@+id/btnreset"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="60dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="54dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="0"
             android:background="#00FFFFFF"
-            android:src="@drawable/ic_stat_image_timer"
-            android:tint="#3F51B5"
+            android:src="@drawable/ic_reset"
+            android:tint="@color/design_default_color_primary"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/fab"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btnstart"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="0"
             android:background="@drawable/circle_progress"
@@ -71,29 +92,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/btnsplit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="LAP"
+            android:textAlignment="center"
+            android:textColor="#3F51B5"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </LinearLayout>
-
-    <TextView
-
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-
-        android:layout_marginLeft="20dp"
-
-        android:text="Records"
-        android:textSize="20sp" />
-
-    <TextView
-
-        android:id="@+id/split"
-
-        android:layout_width="match_parent"
-
-        android:layout_height="match_parent"
-
-        android:layout_marginLeft="20dp"
-        android:scrollbars="vertical"
-        android:textSize="20sp" />
 
 </LinearLayout>
