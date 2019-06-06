@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:padding="10dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:outlineProvider="background"
-    android:layout_gravity="center"
     android:id="@+id/frame"
-    >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/timer_text_view"
-            android:textSize="35dp"/>
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_gravity="center"
+    android:outlineProvider="background"
+    android:orientation="vertical"
+    android:padding="10dp">
 
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/timer_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="work"
+        android:textSize="20dp" />
+
+    <com.dinuscxj.progressbar.CircleProgressBar
+        android:id="@+id/circleProgressbar_floating"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:progress_start_color="#dddddd"
+        app:progress_end_color="#dddddd"
+        app:line_count="30"
+        app:line_width="20dp"
+        app:progress_start_degree="-90"
+        app:progress_stroke_cap="round"
+        app:progress_stroke_width="10dp"
+        app:progress_text_size="20dp"
+        app:style="solid_line" />
+
+
+    <TextView
+        android:id="@+id/timer_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="1/8" />
 
 </LinearLayout>

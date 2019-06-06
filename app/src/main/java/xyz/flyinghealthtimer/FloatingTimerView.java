@@ -23,7 +23,8 @@ import xyz.flyinghealthtimer.utils.TimerModel;
 public class FloatingTimerView extends FloatingView {
 
 
-    private TextView mTimerView;
+    static public TextView mTimerView;
+    public TextView timerStatus;
     private long mMillisRemaining = 0;
     private LinearLayout mLayout;
     private boolean mIsStarted = false;
@@ -52,7 +53,8 @@ public class FloatingTimerView extends FloatingView {
     public FloatingTimerView(Context context, TimerModel timerModel) {
         super(context);
         inflate(context, R.layout.countdown_timer_view, this);
-        mTimerView=(TextView)findViewById(R.id.timer_text_view);
+        Log.i(FloatingTimerView.class.getName(), "floatingTimerView");
+        statusView = findViewById(R.id.timer_status);
         mLayout = (LinearLayout) findViewById(R.id.frame);
         mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
         this.timerModel = timerModel;
@@ -148,8 +150,6 @@ public class FloatingTimerView extends FloatingView {
         return false;
     }
 
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
@@ -218,6 +218,41 @@ public class FloatingTimerView extends FloatingView {
 
     private void startTimer() {
         mIsStarted = true;
+
+        rest = timerModel.timeRest;
+        run = timerModel.timeRun;
+        pause = timerModel.timePause;
+        maxRest = timerModel.timeRest;
+        maxRun = timerModel.timeRun;
+        maxPause = timerModel.timePause;
+
+        count = (TextView) findViewById(R.id.timer_round);
+
+
+        progressBar = (CircleProgressBar) findViewById(R.id.circleProgressbar_floating);
+        progressBar.setProgressFormatter(new TimerFragment.MyProgressFormatter());
+
+        getContext().registerReceiver(receiver, new IntentFilter(TimerService.NOTIFICATION));
+        if (!isMyServiceRunning(TimerService.class)) {
+            Intent i = new Intent(getContext(), TimerService.class);
+            i.putExtra("rest", timerModel.timeRest);
+            i.putExtra("run", timerModel.timeRun);
+            i.putExtra("pause", timerModel.timePause);
+            i.putExtra("count", timerModel.timerCount);
+            i.putExtra("id", timerModel.id);
+            trikita.log.Log.d("id dd", timerModel.id);
+            getContext().startService(i);
+            isRunning = true;
+            mIsStarted = true;
+//            mLayout.setBackgroundResource(R.drawable.ic_timer_started);
+
+        }
+
+
+        // 여기서 원래는 타이머가 시작되는데 나는 이미 타이머가 시작된 상태이다.\
+        // 그럼 TimerService에 내 레이아웃을 넘겨주저야 하는데, ./.... 그렇다면 생각을 좀 해보자.
+        // service에서 View로 정보를 갖고오는 방법을 생각해보자.
+        // Service와 어떻게 통신하는지 알아보자.
 //        if(mMillisRemaining==0){
 //            mCountDownTimer = new MyCountDownTimer(hourSecondMinuteToMilli(), mTimerView);
 //        }else{
