@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +18,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
@@ -91,7 +91,7 @@ public class TimerService extends Service {
         Log.d(LOG_TAG, "onStartCommand");
         int status = intent.getIntExtra("status", 0);
         if (status == 0) {
-        timerModel.timeRest = intent.getIntExtra("rest", 0);
+            timerModel.timeRest = intent.getIntExtra("rest", 0);
             timerModel.timeRun = intent.getIntExtra("run", 0);
             timerModel.timePause = intent.getIntExtra("pause", 0);
             timerModel.timerCount = intent.getIntExtra("count", 0);
@@ -181,45 +181,50 @@ public class TimerService extends Service {
                         playBeep(true);
                     nowRepeat++;
                 }
-            } else if (nowStatus == RUN) {
-                if (run > 0) run--;
-                if (run < 4 && run > 0) {
-                    if (isSound)
-                        playBeep(false);
-                    if (isTTS)
-                        speakSec(run);
-                }
-                if (run == 0) {
-                    if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
-                        nowStatus = FINISH;
-                    } else {
-                        nowStatus = PAUSE;
-                        run = timerModel.timeRun;
-                        if (nowRepeat == timerModel.timerCount) {
-                            nowStatus = FINISH;
-                        } else {
-                            nowRepeat++;
-                        }
-                    }
-                    if (isSound)
-                        playBeep(true);
-
-                }
             } else if (nowStatus == PAUSE) {
                 if (pause > 0) pause--;
                 if (pause < 4 && pause > 0) {
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
-                        speakSec(pause);
+                        speakSec(run);
                 }
                 if (pause == 0) {
-                    nowStatus = RUN;
-                    if (timerModel.timePause != 0) {
-                        if (isSound)
-                            playBeep(true);
+                    if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
+                        nowStatus = FINISH;
+                    } else {
+                        nowStatus = RUN;
+                        pause = timerModel.timePause;
+
+                            nowRepeat++;
+
                     }
-                    pause = timerModel.timePause;
+                    if (isSound)
+                        playBeep(true);
+
+                }
+            } else if (nowStatus == RUN) {
+                if (run > 0) run--;
+                if (run < 4 && run > 0) {
+                    if (isSound)
+                        playBeep(false);
+                    if (isTTS)
+                        speakSec(pause);
+                }
+                if (run == 0) {
+                    if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
+                        nowStatus = FINISH;
+                    } else {
+                        nowStatus = PAUSE;
+                        if (nowRepeat == timerModel.timerCount) {
+                            nowStatus = FINISH;
+                        }
+                        if (timerModel.timeRun != 0) {
+                            if (isSound)
+                                playBeep(true);
+                        }
+                        run = timerModel.timeRun;
+                    }
                 }
             }
             Intent intent = new Intent(NOTIFICATION);
@@ -249,6 +254,8 @@ public class TimerService extends Service {
 
 
     }
+
+
 
     private void playBeep(boolean isLong) {
         try {
@@ -305,15 +312,28 @@ public class TimerService extends Service {
             RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
 
 
-            Notification notification = new Notification.Builder(this, "channel_id")
-                    .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
-                    .setContentText(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER ?
-                            "" :
-                            nowRepeat + "/" + timerModel.timerCount)
-                    .setSmallIcon(R.drawable.ic_stat_image_timer)
-                    .setContentIntent(pIntent)
-                    .setAutoCancel(true).build();
+            Intent serviceIntent = new Intent(this, StopServiceReceiver.class);
+            PendingIntent piIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
+
+            contentView.setOnClickPendingIntent(R.id.btn_play_pause, piIntent);
+
+
+//            Notification notification = new Notification.Builder(this, "channel_id")
+//                    .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
+//                    .setContentText(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER ?
+//                            "" :
+//                            nowRepeat + "/" + timerModel.timerCount)
+//                    .setSmallIcon(R.drawable.ic_stat_image_timer)
+//                    .setContentIntent(pIntent)
+//                    .setAutoCancel(true).build();
+
+            Notification noti = new Notification.Builder(this, "channel_id")
+                    .setStyle(new Notification.DecoratedCustomViewStyle())
+                    .setCustomContentView(contentView)
+                    .setSmallIcon(R.drawable.ic_stat_image_timer)
+                    .build();
+            notificationManager.notify(1, noti);
 
 
 //            Intent i = new Intent(this, MainActivity.class);
@@ -322,7 +342,7 @@ public class TimerService extends Service {
 //            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
 //            notification.addAction(R.drawable.ic_action_av_stop, getString(R.string.stop), pi);
 
-            notificationManager.notify(1, notification);
+//            notificationManager.notify(1, notification);
 
 //            startForeground(456772, notification.build());
         }
@@ -357,4 +377,15 @@ public class TimerService extends Service {
     }
 
 
+
+}
+
+class StopServiceReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Intent service = new Intent(context, TimerService.class);
+        context.stopService(service);
+
+    }
 }

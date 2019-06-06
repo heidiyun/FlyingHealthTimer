@@ -308,7 +308,10 @@ public class TimerFragment extends BaseFragment {
             case FINISH:
                 mActivity.stopService(new Intent(getContext(), TimerService.class));
                 statusView.setText(R.string.finish);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+//                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                progressBar.setVisibility(View.INVISIBLE);
+                fabStop.setImageResource(R.drawable.ic_play_button);
+                count.setVisibility(View.INVISIBLE);
                 break;
         }
 
