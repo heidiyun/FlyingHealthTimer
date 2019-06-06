@@ -56,15 +56,17 @@ public class FloatingService extends Service {
 
 
     private static Notification createNotification(Context context) {
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setWhen(System.currentTimeMillis());
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("FloatTimer");
-        builder.setContentText("FloatingTimer is Running");
-        builder.setOngoing(true);
-        builder.setPriority(NotificationCompat.PRIORITY_MIN);
-        builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
-        return builder.build();
+
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            builder.setWhen(System.currentTimeMillis());
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setContentTitle("FloatTimer");
+            builder.setContentText("FloatingTimer is Running");
+            builder.setOngoing(true);
+            builder.setPriority(NotificationCompat.PRIORITY_MIN);
+            builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
+            return builder.build();
+
     }
 
 

@@ -55,6 +55,8 @@ public class TimerService extends Service {
     private Timer timer;
     private PowerManager.WakeLock wakeLock;
     private NotificationManager notificationManager;
+
+
     private Boolean isNotification;
     private Boolean isSound;
     private Boolean isTTS;

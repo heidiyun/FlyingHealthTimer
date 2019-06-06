@@ -3,6 +3,7 @@ package xyz.flyinghealthtimer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,6 +27,13 @@ public class FloatingView extends FrameLayout {
         mLayoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         mLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         mLayoutParams.type = WindowManager.LayoutParams.TYPE_PRIORITY_PHONE;
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            mLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            mLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
+        }
+
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS |
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
