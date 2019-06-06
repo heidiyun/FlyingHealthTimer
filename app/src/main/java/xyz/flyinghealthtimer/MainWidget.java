@@ -1,6 +1,5 @@
 package xyz.flyinghealthtimer;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -57,12 +56,11 @@ public class MainWidget extends AppWidgetProvider {
 
         int[] appwidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
-        Log.i("SSS", action);
 
         if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {
-            Log.i("SSS", "herererer");
+
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
-            views.setOnClickPendingIntent(R.id.widget_layout, buildURIIntent(context));
+            views.setOnClickPendingIntent(R.id.textView, buildURIIntent(context));
             remoteViews = views;
             this.onUpdate(context, AppWidgetManager.getInstance(context),appwidgetIds);
         }

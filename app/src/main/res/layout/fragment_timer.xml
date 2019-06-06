@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/backgroundColor"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,8 +20,8 @@
             android:layout_marginBottom="30dp"
             android:layout_weight="0"
             android:gravity="center_vertical"
-            android:textColor="#eee"
-            android:textSize="48dp" />
+            android:textColor="@color/white"
+            android:textSize="30dp" />
 
         <com.dinuscxj.progressbar.CircleProgressBar
             android:id="@+id/circleProgressbar"
@@ -47,11 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:gravity="center_vertical"
             android:text="1/8"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="48dp" />
+            android:textColor="@color/white"
+            android:textSize="43dp" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -67,7 +66,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/white"
+                android:background="@color/backgroundColor"
                 android:src="@drawable/ic_baseline_replay_24px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/fab"
@@ -78,8 +77,8 @@
 
             <ImageButton
                 android:id="@+id/fab"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"

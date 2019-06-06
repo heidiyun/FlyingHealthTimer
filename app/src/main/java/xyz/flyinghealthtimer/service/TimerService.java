@@ -187,7 +187,7 @@ public class TimerService extends Service {
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
-                        speakSec(run);
+                        speakSec(pause);
                 }
                 if (pause == 0) {
                     if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
@@ -209,7 +209,7 @@ public class TimerService extends Service {
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
-                        speakSec(pause);
+                        speakSec(run);
                 }
                 if (run == 0) {
                     if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {

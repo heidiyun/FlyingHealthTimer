@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
-import xyz.flyinghealthtimer.utils.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 public class TimerAdapter extends BaseAdapter{
 	
@@ -104,7 +103,7 @@ public class TimerAdapter extends BaseAdapter{
 				bundle.putParcelable("timer", (Parcelable) timer);
 				intent.putExtra("timer", bundle);
 				root.getContext().startService(intent);
-				Toast.makeText(mContext, "floating", Toast.LENGTH_SHORT).show();
+
 			}
 		});
 
@@ -113,7 +112,7 @@ public class TimerAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
-				Toast.makeText(mContext, "Interval", Toast.LENGTH_SHORT).show();
+
 			}
 		});
 

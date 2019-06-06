@@ -31,10 +31,10 @@ import com.dinuscxj.progressbar.CircleProgressBar;
 import trikita.log.Log;
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.service.TimerService;
-import xyz.flyinghealthtimer.utils.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
+import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.utils.TimerApi;
+import xyz.flyinghealthtimer.utils.TimerModel;
 
 @SuppressLint("ValidFragment")
 public class TimerFragment extends BaseFragment {
@@ -114,7 +114,7 @@ public class TimerFragment extends BaseFragment {
         }
         setTitle("");
 
-        toolbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+
         actionBar.setElevation(0);
         if (rootView != null) return rootView;
 
@@ -171,7 +171,8 @@ public class TimerFragment extends BaseFragment {
             public void onClick(View view) {
                 mActivity.stopService(new Intent(getContext(), TimerService.class));
                 nowStatus = REST;
-                rest = maxRest;
+                rest = maxRest + 1
+                ;
                 run = maxRun;
                 pause = maxPause;
                 nowRepeat = 0;
@@ -277,33 +278,33 @@ public class TimerFragment extends BaseFragment {
             case REST:
 
                 statusView.setText(R.string.rest);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+//                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setMax(maxRest);
                 progressBar.setProgress(rest - 1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
-                setStatusBarColor(R.color.yellow);
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+
+
                 break;
             case RUN:
                 progressBar.setMax(maxRun);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+//                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 statusView.setText(R.string.run);
                 progressBar.setProgress(run - 1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
-                setStatusBarColor(R.color.yellow);
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+
+
                 break;
             case PAUSE:
                 progressBar.setMax(maxPause);
-                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+//                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 statusView.setText(R.string.pausa);
                 progressBar.setProgress(pause - 1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
-                toolbar.setBackgroundDrawable(new ColorDrawable(res.getColor(R.color.yellow)));
-                setStatusBarColor(R.color.yellow);
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+
+
                 break;
             case FINISH:
                 mActivity.stopService(new Intent(getContext(), TimerService.class));

@@ -1,9 +1,7 @@
 package xyz.flyinghealthtimer;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,16 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         getPermissionAndStartService(true);
-
-        SharedPreferences sharedPreferences =
-                getSharedPreferences("xyz.heidiyun", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("sound", true);
-        editor.putBoolean("notification", true);
-        editor.putBoolean("vibrator", false);
-
-        editor.putBoolean("tts", false);
-        editor.apply();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.fragment.BaseFragment;
 
 public class SettingFragment extends BaseFragment {
 
@@ -36,9 +35,13 @@ public class SettingFragment extends BaseFragment {
         notificationSwitch = view.findViewById(R.id.notification_switch);
         ttsSwitch = view.findViewById(R.id.tts_switch);
 
-        soundSwitch.setChecked(true);
-        vibratorSwitch.setChecked(false);
-        notificationSwitch.setChecked(true);
+        SharedPreferences sharedPreferences = view.getContext()
+                .getSharedPreferences("xyz.heidiyun", Context.MODE_PRIVATE);
+        soundSwitch.setChecked( sharedPreferences.getBoolean("sound", true));
+        vibratorSwitch.setChecked( sharedPreferences.getBoolean("vibrator", false));
+        notificationSwitch.setChecked( sharedPreferences.getBoolean("notification", true));
+        ttsSwitch.setChecked( sharedPreferences.getBoolean("tts", false));
+
 
         soundSwitch.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
