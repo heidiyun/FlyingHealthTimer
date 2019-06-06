@@ -286,21 +286,21 @@ public class TimerFragment extends BaseFragment {
                 break;
             case RUN:
                 progressBar.setMax(maxRun);
-//                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.green));
                 statusView.setText(R.string.run);
                 progressBar.setProgress(run - 1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.green));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.green));
 
 
                 break;
             case PAUSE:
                 progressBar.setMax(maxPause);
-//                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
+                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.red));
                 statusView.setText(R.string.pausa);
                 progressBar.setProgress(pause - 1);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
-                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
+                progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.red));
+                progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.red));
 
 
                 break;
@@ -370,8 +370,12 @@ public class TimerFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.action_edit:
                 pauseTimer = true;
-
                 FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
+                if (isService) {
+                    isService = false;
+                }
+
+                rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
                 break;
             case R.id.action_delete:
                 pauseTimer = true;
@@ -379,6 +383,11 @@ public class TimerFragment extends BaseFragment {
 
                 //FragmentController.backFragment();
                 TimerApi.deleteTimer(mActivity, timerModel);
+                if (isService) {
+                    isService = false;
+                }
+
+                rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
                 break;
         }
         return true;

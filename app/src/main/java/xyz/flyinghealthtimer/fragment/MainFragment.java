@@ -16,8 +16,8 @@ import java.util.Date;
 
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.fragment.adapter.TimerAdapter;
+import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.utils.TimerApi;
 import xyz.flyinghealthtimer.utils.TimerModel;
 
@@ -56,7 +56,7 @@ public class MainFragment extends BaseFragment {
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();
             timer.name = getResources().getString(R.string.flying_health_timer);
-            timer.timeRest = 10;
+            timer.timeRest = 3;
             timer.timeRun = 20;
             timer.timePause = 10;
             timer.timerCount = 8;
@@ -65,7 +65,7 @@ public class MainFragment extends BaseFragment {
             timer = new TimerModel();
             timer.id = (int) new Date().getTime();
             timer.name = getResources().getString(R.string.flying_health_timer);
-            timer.timeRest = 10;
+            timer.timeRest = 3;
             timer.timeRun = 50;
             timer.timePause = 20;
             timer.timerCount = 6;

@@ -49,8 +49,9 @@
             android:layout_weight="0.1"
             android:gravity="center_vertical"
             android:text="1/8"
+            android:layout_marginTop="30dp"
             android:textColor="@android:color/darker_gray"
-            android:textSize="43dp" />
+            android:textSize="38dp" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
