@@ -82,7 +82,7 @@ public class TimerFragment extends BaseFragment {
 
     }
 
-     public static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
+    public static final class MyProgressFormatter implements CircleProgressBar.ProgressFormatter {
         private static final String DEFAULT_PATTERN = "%d";
 
         @Override
@@ -171,8 +171,7 @@ public class TimerFragment extends BaseFragment {
             public void onClick(View view) {
                 mActivity.stopService(new Intent(getContext(), TimerService.class));
                 nowStatus = REST;
-                rest = maxRest + 1
-                ;
+                rest = maxRest;
                 run = maxRun;
                 pause = maxPause;
                 nowRepeat = 0;
@@ -196,7 +195,7 @@ public class TimerFragment extends BaseFragment {
             i.putExtra("pause", timerModel.timePause);
             i.putExtra("count", timerModel.timerCount);
             i.putExtra("id", timerModel.id);
-            Log.d("id dd", timerModel.id);
+
             rootView.getContext().startService(i);
 //            rootView.getContext().bindService(i, connection, Context.BIND_AUTO_CREATE);
 
@@ -276,7 +275,6 @@ public class TimerFragment extends BaseFragment {
         Resources res = getActivity().getResources();
         switch (nowStatus) {
             case REST:
-
                 statusView.setText(R.string.rest);
 //                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setMax(maxRest);

@@ -172,10 +172,13 @@ public class TimerService extends Service {
             if (nowStatus == REST) {
                 if (rest > 0) rest--;
                 if (rest < 4 && rest > 0) {
+
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
                         speakSec(rest);
+                    if (isVibrator)
+                        playVibrator();
                 }
                 if (rest == 0) {
                     nowStatus = RUN;
@@ -186,10 +189,13 @@ public class TimerService extends Service {
             } else if (nowStatus == PAUSE) {
                 if (pause > 0) pause--;
                 if (pause < 4 && pause > 0) {
+
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
                         speakSec(pause);
+                    if (isVibrator)
+                        playVibrator();
                 }
                 if (pause == 0) {
                     if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
@@ -198,7 +204,7 @@ public class TimerService extends Service {
                         nowStatus = RUN;
                         pause = timerModel.timePause;
 
-                            nowRepeat++;
+                        nowRepeat++;
 
                     }
                     if (isSound)
@@ -208,10 +214,13 @@ public class TimerService extends Service {
             } else if (nowStatus == RUN) {
                 if (run > 0) run--;
                 if (run < 4 && run > 0) {
+
                     if (isSound)
                         playBeep(false);
                     if (isTTS)
                         speakSec(run);
+                    if (isVibrator)
+                        playVibrator();
                 }
                 if (run == 0) {
                     if (timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER) {
@@ -258,6 +267,10 @@ public class TimerService extends Service {
     }
 
 
+    private void playVibrator() {
+        vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vib.vibrate(200);
+    }
 
     private void playBeep(boolean isLong) {
         try {
@@ -280,9 +293,8 @@ public class TimerService extends Service {
             } else {
                 afd = getAssets().openFd("beep-07.mp3");
             }
-            vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if (isVibrator)
-                vib.vibrate(500);
+
+
             player = new MediaPlayer();
             player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             player.prepare();
@@ -377,7 +389,6 @@ public class TimerService extends Service {
                 return "";
         }
     }
-
 
 
 }

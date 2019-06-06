@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/root"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
@@ -111,6 +111,9 @@
                android:layout_weight="1"
                android:text="FloatingTimer"
                style="@style/Widget.AppCompat.Button.Colored"
+               android:shadowColor="@color/backgroundColor"
+               android:shadowDy="10"
+               android:shadowDx="10"
                />
 
            <Button

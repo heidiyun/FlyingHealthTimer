@@ -53,6 +53,7 @@ public class FloatingTimerView extends FloatingView {
     public FloatingTimerView(Context context, TimerModel timerModel) {
         super(context);
         inflate(context, R.layout.countdown_timer_view, this);
+
         Log.i(FloatingTimerView.class.getName(), "floatingTimerView");
         statusView = findViewById(R.id.timer_status);
         mLayout = (LinearLayout) findViewById(R.id.frame);
@@ -60,6 +61,7 @@ public class FloatingTimerView extends FloatingView {
         this.timerModel = timerModel;
 
         startTimer();
+        updateScreen();
 
 
     }
@@ -85,19 +87,13 @@ public class FloatingTimerView extends FloatingView {
     private void updateScreen() {
 
         if (timerModel == null) return;
-        if (isRunning) {
-
-        } else {
-//            fabStop.setImageResource(R.drawable.ic_play_button);
-        }
 
         if (timerModel.timerCount != TimerModel.COUNT_SINGLE_TIMER) {
             count.setText(nowRepeat + " / " + timerModel.timerCount);
         } else {
             count.setVisibility(View.GONE);
         }
-//        if (!isAdded()) return;
-//        Resources res = getActivity().getResources();
+
         switch (nowStatus) {
             case REST:
                 statusView.setText(R.string.rest);
@@ -132,7 +128,8 @@ public class FloatingTimerView extends FloatingView {
             case FINISH:
                 getContext().stopService(new Intent(getContext(), TimerService.class));
                 statusView.setText(R.string.finish);
-                progressBar.setProgressBackgroundColor(ContextCompat.getColor(getContext(), R.color.yellow));
+//                progressBar.setProgressBackgroundColor(ContextCompat.getColor(getContext(), R.color.yellow));
+                progressBar.setVisibility(View.GONE);
                 break;
         }
 
@@ -204,11 +201,6 @@ public class FloatingTimerView extends FloatingView {
 
             trikita.log.Log.d("id dd", timerModel.id);
             getContext().startService(i);
-
-
-//                        Intent intent = new Intent(rootView.getContext(), timerService.getClass());
-
-//                        rootView.getContext().startService(intent);
         }
 
         isRunning = true;
@@ -217,7 +209,6 @@ public class FloatingTimerView extends FloatingView {
     }
 
     private void startTimer() {
-        mIsStarted = true;
 
         rest = timerModel.timeRest;
         run = timerModel.timeRun;
@@ -240,27 +231,13 @@ public class FloatingTimerView extends FloatingView {
             i.putExtra("pause", timerModel.timePause);
             i.putExtra("count", timerModel.timerCount);
             i.putExtra("id", timerModel.id);
-            trikita.log.Log.d("id dd", timerModel.id);
+
             getContext().startService(i);
             isRunning = true;
             mIsStarted = true;
-//            mLayout.setBackgroundResource(R.drawable.ic_timer_started);
 
         }
 
-
-        // 여기서 원래는 타이머가 시작되는데 나는 이미 타이머가 시작된 상태이다.\
-        // 그럼 TimerService에 내 레이아웃을 넘겨주저야 하는데, ./.... 그렇다면 생각을 좀 해보자.
-        // service에서 View로 정보를 갖고오는 방법을 생각해보자.
-        // Service와 어떻게 통신하는지 알아보자.
-//        if(mMillisRemaining==0){
-//            mCountDownTimer = new MyCountDownTimer(hourSecondMinuteToMilli(), mTimerView);
-//        }else{
-//            mCountDownTimer = new MyCountDownTimer(mMillisRemaining, mTimerView);
-//        }
-//        mPickers.setVisibility(View.INVISIBLE);
-//        mCountDownTimer.start();
-//        mTimerView.setVisibility(VISIBLE);
         mLayout.setBackgroundResource(R.drawable.ic_timer_started);
     }
 
