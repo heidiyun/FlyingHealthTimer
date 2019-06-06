@@ -3,11 +3,14 @@ package xyz.flyinghealthtimer.fragment;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -28,7 +31,10 @@ import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
+import java.util.Calendar;
+
 import trikita.log.Log;
+import xyz.flyinghealthtimer.DBHelper;
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
 import xyz.flyinghealthtimer.service.FloatingService;
@@ -47,6 +53,9 @@ public class TimerFragment extends BaseFragment {
 
     public static boolean isForeground = true;
     private FloatingService floatingService = new FloatingService();
+
+    private DBHelper helper;
+    private SQLiteDatabase db;
 
     private TimerService timerService;
     public static Boolean isRunning = false;
@@ -108,6 +117,7 @@ public class TimerFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+
         if (timerModel == null) {
             FragmentController.newFragment(new MainFragment(), R.layout.fragment_main, false);
             return null;
@@ -119,6 +129,15 @@ public class TimerFragment extends BaseFragment {
         if (rootView != null) return rootView;
 
         rootView = (FrameLayout) inflater.inflate(R.layout.fragment_timer, container, false);
+
+        helper = new DBHelper(rootView.getContext());
+        try {
+            db = helper.getWritableDatabase();
+        } catch (SQLiteException e) {
+            db = helper.getReadableDatabase();
+        }
+
+
 
         statusView = (TextView) rootView.findViewById(R.id.status);
         progressBar = (CircleProgressBar) rootView.findViewById(R.id.circleProgressbar);
@@ -311,6 +330,18 @@ public class TimerFragment extends BaseFragment {
                 progressBar.setVisibility(View.INVISIBLE);
                 fabStop.setImageResource(R.drawable.ic_play_button);
                 count.setVisibility(View.INVISIBLE);
+                ContentValues values = new ContentValues();
+                values.put("_id", (byte[]) null);
+                values.put("name", timerModel.name);
+                values.put("count", 1);
+                Calendar cal = Calendar.getInstance();
+                StringBuffer sb = new StringBuffer();
+                sb.append(cal.get(Calendar.YEAR));
+                sb.append(cal.get(Calendar.MONTH));
+                sb.append(cal.get(Calendar.DATE));
+                values.put("date", sb.toString());
+                db.insert("records", null, values);
+//                db.execSQL("INSERT INTO records VALUES (null, " + 1 + ", " + 1 + ")");
                 break;
         }
 

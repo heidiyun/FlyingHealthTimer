@@ -21,6 +21,7 @@ import java.util.List;
 
 import trikita.log.Log;
 import xyz.flyinghealthtimer.fragment.MainFragment;
+import xyz.flyinghealthtimer.fragment.RecordFragment;
 import xyz.flyinghealthtimer.fragment.SettingFragment;
 import xyz.flyinghealthtimer.fragment.StopWatchFragment;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentController.newFragment(new MainFragment(), R.layout.fragment_main, false);
         onNewIntent(getIntent());
+
+
+
+
 
 //        TabLayout tabLayout = findViewById(R.id.tabLayout);
 //        ViewPager viewPager = findViewById(R.id.viewPager);
@@ -168,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_issue:
                 FragmentController.newFragment(new SettingFragment(), R.layout.fragment_setting, true);
                 break;
+            case R.id.nav_record:
+                FragmentController.newFragment(new RecordFragment(), R.layout.fragment_record, true);
+                break;
+
 
 
         }
