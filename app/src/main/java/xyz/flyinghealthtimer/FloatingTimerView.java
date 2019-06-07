@@ -84,8 +84,7 @@ public class FloatingTimerView extends FloatingView {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                trikita.log.Log.d(bundle);
-                trikita.log.Log.d(intent);
+
                 nowStatus = bundle.getInt("status", 0);
                 rest = bundle.getInt("rest", 0);
                 run = bundle.getInt("run", 0);
@@ -162,11 +161,11 @@ public class FloatingTimerView extends FloatingView {
         ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                trikita.log.Log.d("service true");
+
                 return true;
             }
         }
-        trikita.log.Log.d("service false");
+
         return false;
     }
 
@@ -222,7 +221,6 @@ public class FloatingTimerView extends FloatingView {
             i.putExtra("nowCount", nowRepeat);
             i.putExtra("nowStatus", nowStatus);
 
-            trikita.log.Log.d("id dd", timerModel.id);
             getContext().startService(i);
         }
 

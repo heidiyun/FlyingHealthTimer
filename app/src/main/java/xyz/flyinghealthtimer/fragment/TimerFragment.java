@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
-import trikita.log.Log;
 import xyz.flyinghealthtimer.DBHelper;
 import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
@@ -165,7 +164,6 @@ public class TimerFragment extends BaseFragment {
                         i.putExtra("nowCount", nowRepeat);
                         i.putExtra("nowStatus", nowStatus);
 
-                        Log.d("id dd", timerModel.id);
                         getContext().startService(i);
 
 
@@ -247,11 +245,9 @@ public class TimerFragment extends BaseFragment {
         ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.d("service true");
                 return true;
             }
         }
-        Log.d("service false");
         return false;
     }
 
@@ -261,8 +257,6 @@ public class TimerFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                Log.d(bundle);
-                Log.d(intent);
                 nowStatus = bundle.getInt("status", 0);
                 rest = bundle.getInt("rest", 0);
                 run = bundle.getInt("run", 0);

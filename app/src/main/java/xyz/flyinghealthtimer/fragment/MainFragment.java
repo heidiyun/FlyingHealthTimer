@@ -37,7 +37,7 @@ public class MainFragment extends BaseFragment {
         setTitle(R.string.app_name);
         actionBar.setDisplayHomeAsUpEnabled(false);
 
-       // if(rootView != null) return  rootView;
+        // if(rootView != null) return  rootView;
 
         rootView = (FrameLayout) inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -52,10 +52,10 @@ public class MainFragment extends BaseFragment {
         });
 
 
-        if(TimerApi.getListTimers(mActivity).size() == 0){
+        if (TimerApi.getListTimers(mActivity).size() == 0) {
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();
-            timer.name = getResources().getString(R.string.flying_health_timer);
+            timer.name = "20 - 10 Tabata";
             timer.timeRest = 3;
             timer.timeRun = 20;
             timer.timePause = 10;
@@ -64,7 +64,7 @@ public class MainFragment extends BaseFragment {
 
             timer = new TimerModel();
             timer.id = (int) new Date().getTime();
-            timer.name = getResources().getString(R.string.flying_health_timer);
+            timer.name = "50 - 20 Tabata";
             timer.timeRest = 3;
             timer.timeRun = 50;
             timer.timePause = 20;
@@ -79,10 +79,10 @@ public class MainFragment extends BaseFragment {
         listTimer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(isMyServiceRunning(TimerService.class)) {
+                if (isMyServiceRunning(TimerService.class)) {
                     rootView.getContext().stopService(new Intent(rootView.getContext(), TimerService.class));
                 }
-                if(position == parent.getCount()) return;
+                if (position == parent.getCount()) return;
                 TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
 //
                 FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
@@ -90,8 +90,6 @@ public class MainFragment extends BaseFragment {
         });
         return rootView;
     }
-
-
 
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

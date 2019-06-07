@@ -19,7 +19,6 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-import trikita.log.Log;
 import xyz.flyinghealthtimer.fragment.MainFragment;
 import xyz.flyinghealthtimer.fragment.SettingFragment;
 import xyz.flyinghealthtimer.fragment.StopWatchFragment;
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (getIntent() != null && getIntent().getExtras() != null) {
             int id = getIntent().getIntExtra("timer_id", -1);
             boolean stop = getIntent().getBooleanExtra("stop", false);
-            Log.d("onNewIntent id", id, "stop", stop);
 
             if (stop) {
                 stopService(new Intent(this, TimerService.class));

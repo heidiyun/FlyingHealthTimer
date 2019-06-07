@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import trikita.log.Log;
 import xyz.flyinghealthtimer.MainActivity;
 import xyz.flyinghealthtimer.R;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
@@ -39,6 +38,8 @@ public class TimerService extends Service {
     private static final int RUN = 1;
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
+
+    public static boolean isServiceRunning = false;
 
     private TextToSpeech tts;
     public static TimerModel timerModel = new TimerModel();
@@ -78,18 +79,19 @@ public class TimerService extends Service {
 
     public void onCreate() {
         super.onCreate();
-        Log.d(LOG_TAG, "onCreate");
+
 
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        isServiceRunning = true;
         SharedPreferences sp = getSharedPreferences("xyz.heidiyun", MODE_PRIVATE);
         isNotification = sp.getBoolean("notification", true);
         isSound = sp.getBoolean("sound", true);
         isTTS = sp.getBoolean("tts", false);
         isVibrator = sp.getBoolean("vibrator", false);
 
-        Log.d(LOG_TAG, "onStartCommand");
+
         int status = intent.getIntExtra("status", 0);
         if (status == 0) {
             timerModel.timeRest = intent.getIntExtra("rest", 0);
@@ -97,7 +99,7 @@ public class TimerService extends Service {
             timerModel.timePause = intent.getIntExtra("pause", 0);
             timerModel.timerCount = intent.getIntExtra("count", 0);
             timerModel.id = intent.getIntExtra("id", -1);
-            Log.d("id", timerModel.id);
+
             rest = timerModel.timeRest;
             run = timerModel.timeRun;
             pause = timerModel.timePause;
@@ -112,7 +114,6 @@ public class TimerService extends Service {
             pause = intent.getIntExtra("nowPause", 0);
             nowRepeat = intent.getIntExtra("nowCount", 0);
             nowStatus = intent.getIntExtra("nowStatus", 0);
-            Log.d("id", timerModel.id);
 
 
         }
@@ -140,11 +141,13 @@ public class TimerService extends Service {
 
     public void onDestroy() {
         super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
+
         //if(handlerTimer != null) handlerTimer.removeCallbacksAndMessages(null);
         if (runnableTimer != null) runnableTimer.cancel();
         if (timer != null) timer.cancel();
         if (notificationManager != null) notificationManager.cancelAll();
+
+        isServiceRunning = false;
 
     }
 
@@ -166,7 +169,7 @@ public class TimerService extends Service {
     TimerTask runnableTimer = new TimerTask() {
         @Override
         public void run() {
-            Log.d("runnableTimer", "runnableTimer");
+
             if (pauseTimer) return;
             if (nowStatus == REST) {
                 if (rest > 0) rest--;
@@ -245,7 +248,7 @@ public class TimerService extends Service {
             intent.putExtra("nowRepeat", nowRepeat);
             sendBroadcast(intent);
             if (TimerFragment.isRunning && !TimerFragment.isForeground) {
-                Log.i("SSS", "here");
+
                 if (isNotification)
                     notification();
             }
@@ -310,7 +313,6 @@ public class TimerService extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.i("SSS", "notification");
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel notificationChannel = new NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription("channer description");
