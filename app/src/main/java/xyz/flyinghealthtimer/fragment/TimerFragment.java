@@ -3,7 +3,6 @@ package xyz.flyinghealthtimer.fragment;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -30,8 +29,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
-
-import java.util.Calendar;
 
 import trikita.log.Log;
 import xyz.flyinghealthtimer.DBHelper;
@@ -330,17 +327,17 @@ public class TimerFragment extends BaseFragment {
                 progressBar.setVisibility(View.INVISIBLE);
                 fabStop.setImageResource(R.drawable.ic_play_button);
                 count.setVisibility(View.INVISIBLE);
-                ContentValues values = new ContentValues();
-                values.put("_id", (byte[]) null);
-                values.put("name", timerModel.name);
-                values.put("count", 1);
-                Calendar cal = Calendar.getInstance();
-                StringBuffer sb = new StringBuffer();
-                sb.append(cal.get(Calendar.YEAR));
-                sb.append(cal.get(Calendar.MONTH));
-                sb.append(cal.get(Calendar.DATE));
-                values.put("date", sb.toString());
-                db.insert("records", null, values);
+//                ContentValues values = new ContentValues();
+//                values.put("_id", (byte[]) null);
+//                values.put("name", timerModel.name);
+//                values.put("count", 1);
+//                Calendar cal = Calendar.getInstance();
+//                StringBuffer sb = new StringBuffer();
+//                sb.append(cal.get(Calendar.YEAR));
+//                sb.append(cal.get(Calendar.MONTH));
+//                sb.append(cal.get(Calendar.DATE));
+//                values.put("date", sb.toString());
+//                db.insert("records", null, values);
 //                db.execSQL("INSERT INTO records VALUES (null, " + 1 + ", " + 1 + ")");
                 break;
         }
@@ -402,11 +399,7 @@ public class TimerFragment extends BaseFragment {
             case R.id.action_edit:
                 pauseTimer = true;
                 FragmentController.newFragment(new EditTimerFragment(timerModel), R.layout.fragment_edittimer, true);
-                if (isService) {
-                    isService = false;
-                }
 
-                rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
                 break;
             case R.id.action_delete:
                 pauseTimer = true;

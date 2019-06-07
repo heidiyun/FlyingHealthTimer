@@ -17,10 +17,10 @@
 
             android:title="Setting" />
 
-        <item
-            android:id="@+id/nav_record"
+        <!--<item-->
+            <!--android:id="@+id/nav_record"-->
 
-            android:title="Record" />
+            <!--android:title="Record" />-->
 
     </group>
 

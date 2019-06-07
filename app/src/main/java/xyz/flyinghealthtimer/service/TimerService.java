@@ -18,7 +18,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
-import android.widget.RemoteViews;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -85,8 +84,8 @@ public class TimerService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         SharedPreferences sp = getSharedPreferences("xyz.heidiyun", MODE_PRIVATE);
-        isNotification = sp.getBoolean("notification", false);
-        isSound = sp.getBoolean("sound", false);
+        isNotification = sp.getBoolean("notification", true);
+        isSound = sp.getBoolean("sound", true);
         isTTS = sp.getBoolean("tts", false);
         isVibrator = sp.getBoolean("vibrator", false);
 
@@ -311,6 +310,7 @@ public class TimerService extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.i("SSS", "notification");
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel notificationChannel = new NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription("channer description");
@@ -323,31 +323,32 @@ public class TimerService extends Service {
             notificationManager.createNotificationChannel(notificationChannel);
 
 
-            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
+//            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
+//
+//
+//            Intent serviceIntent = new Intent(this, StopServiceReceiver.class);
+//            PendingIntent piIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//
+//
+//            contentView.setOnClickPendingIntent(R.id.btn_play_pause, piIntent);
 
 
-            Intent serviceIntent = new Intent(this, StopServiceReceiver.class);
-            PendingIntent piIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-            contentView.setOnClickPendingIntent(R.id.btn_play_pause, piIntent);
-
-
-//            Notification notification = new Notification.Builder(this, "channel_id")
-//                    .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
-//                    .setContentText(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER ?
-//                            "" :
-//                            nowRepeat + "/" + timerModel.timerCount)
-//                    .setSmallIcon(R.drawable.ic_stat_image_timer)
-//                    .setContentIntent(pIntent)
-//                    .setAutoCancel(true).build();
-
-            Notification noti = new Notification.Builder(this, "channel_id")
-                    .setStyle(new Notification.DecoratedCustomViewStyle())
-                    .setCustomContentView(contentView)
+            Notification notification = new Notification.Builder(this, "channel_id")
+                    .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
+                    .setContentText(timerModel.timerCount == TimerModel.COUNT_SINGLE_TIMER ?
+                            "" :
+                            nowRepeat + "/" + timerModel.timerCount)
                     .setSmallIcon(R.drawable.ic_stat_image_timer)
-                    .build();
-            notificationManager.notify(1, noti);
+                    .setContentIntent(pIntent)
+                    .setAutoCancel(true).build();
+
+//            Notification noti = new Notification.Builder(this, "channel_id")
+//                    .setStyle(new Notification.DecoratedCustomViewStyle())
+//                    .setCustomContentView(contentView)
+//                    .setSmallIcon(R.drawable.ic_stat_image_timer)
+//                    .build();
+
+//            notificationManager.notify(1, noti);
 
 
 //            Intent i = new Intent(this, MainActivity.class);
@@ -356,7 +357,7 @@ public class TimerService extends Service {
 //            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
 //            notification.addAction(R.drawable.ic_action_av_stop, getString(R.string.stop), pi);
 
-//            notificationManager.notify(1, notification);
+            notificationManager.notify(1, notification);
 
 //            startForeground(456772, notification.build());
         }

@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -50,6 +52,9 @@ public class FloatingTimerView extends FloatingView {
     private int nowStatus = 0;
     private TimerModel timerModel;
 
+    private DBHelper helper;
+    private SQLiteDatabase db;
+
     public FloatingTimerView(Context context, TimerModel timerModel) {
         super(context);
         inflate(context, R.layout.countdown_timer_view, this);
@@ -59,6 +64,13 @@ public class FloatingTimerView extends FloatingView {
         mLayout = (LinearLayout) findViewById(R.id.frame);
         mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
         this.timerModel = timerModel;
+
+        helper = new DBHelper(context);
+        try {
+            db = helper.getWritableDatabase();
+        } catch (SQLiteException e) {
+            db = helper.getReadableDatabase();
+        }
 
         startTimer();
         updateScreen();
@@ -130,6 +142,17 @@ public class FloatingTimerView extends FloatingView {
                 statusView.setText(R.string.finish);
 //                progressBar.setProgressBackgroundColor(ContextCompat.getColor(getContext(), R.color.yellow));
                 progressBar.setVisibility(View.GONE);
+//                ContentValues values = new ContentValues();
+//                values.put("_id", (byte[]) null);
+//                values.put("name", timerModel.name);
+//                values.put("count", 1);
+//                Calendar cal = Calendar.getInstance();
+//                StringBuffer sb = new StringBuffer();
+//                sb.append(cal.get(Calendar.YEAR));
+//                sb.append(cal.get(Calendar.MONTH));
+//                sb.append(cal.get(Calendar.DATE));
+//                values.put("date", sb.toString());
+//                db.insert("records", null, values);
                 break;
         }
 

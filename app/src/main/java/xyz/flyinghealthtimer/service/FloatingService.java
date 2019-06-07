@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import xyz.flyinghealthtimer.FloatingTimerView;
 import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.SharedApplication;
 import xyz.flyinghealthtimer.utils.TimerModel;
 
 public class FloatingService extends Service {
@@ -57,7 +58,7 @@ public class FloatingService extends Service {
 
     private static Notification createNotification(Context context) {
 
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, SharedApplication.CHANNEL_ID);
             builder.setWhen(System.currentTimeMillis());
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentTitle("FloatTimer");

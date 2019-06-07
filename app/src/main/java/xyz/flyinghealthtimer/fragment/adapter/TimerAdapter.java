@@ -98,6 +98,7 @@ public class TimerAdapter extends BaseAdapter{
 
 			@Override
 			public void onClick(View v) {
+				// TODO 둘 중 하나 막기
 				Intent intent = new Intent(root.getContext(), FloatingService.class);
 				Bundle bundle = new Bundle();
 				bundle.putParcelable("timer", (Parcelable) timer);

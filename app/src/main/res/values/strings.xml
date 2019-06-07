@@ -1,17 +1,17 @@
 <resources>
-    <string name="app_name">FlyingHealthTimer</string>
+    <string name="app_name">Flobata</string>
     <string name="text_setName">Set Name</string>
     <string name="text_setCount">Set</string>
     <string name="text_exercise">Exercise</string>
     <string name="text_rest">Rest</string>
     <string name="text_timerSet">Timer Set</string>
-    <string name="action_edit">편집</string>
-    <string name="action_save">저장</string>
+    <string name="action_edit">edit</string>
+    <string name="action_save">save</string>
     <string name="finish">Finish</string>
-    <string name="pausa">rest</string>
+    <string name="pausa">REST</string>
     <string name="remove">Remove</string>
-    <string name="rest">preparation</string>
-    <string name="run">exercise</string>
+    <string name="rest">PREPARATION</string>
+    <string name="run">EXERCISE</string>
     <string name="second">sec</string>
     <string name="seconda">sec</string>
     <string name="seconds">secs</string>
@@ -32,16 +32,17 @@
     <string name="title.create_single_timer">Create a simple timer</string>
     <string name="title_setting">Setting</string>
     <string name="title_stopwatch">StopWatch</string>
+    <string name="title_record">Record</string>
     <string name="minutes">minutes</string>
     <string name="simple">Simple timer</string>
     <string name="flying_health_timer">Flying Health Timer</string>
     <string name="name_timer">The name of the timer</string>
-    <string name="sec">초</string>
+    <string name="sec">sec</string>
     <string name="stop">Stop</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_delete">삭제</string>
+    <string name="action_delete">delete</string>
 </resources>

@@ -32,6 +32,11 @@ public class RecordFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setTitle(R.string.title_record);
+
+        if (rootView != null) return rootView;
+
         View view = inflater.inflate(R.layout.fragment_record, container, false);
 
         helper = new DBHelper(view.getContext());
