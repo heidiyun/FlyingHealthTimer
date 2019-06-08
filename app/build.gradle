@@ -16,8 +16,8 @@ android {
         applicationId "xyz.flyinghealthtimer"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 19060902
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
