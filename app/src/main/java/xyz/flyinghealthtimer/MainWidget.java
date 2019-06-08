@@ -39,10 +39,11 @@ public class MainWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        for (int i = 0; i < appWidgetIds.length; i ++) {
-            Log.i("SSS" , "onUpdate");
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            Log.i("SSS", "onUpdate");
             if (remoteViews != null)
                 appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
+
         }
     }
 
@@ -52,16 +53,19 @@ public class MainWidget extends AppWidgetProvider {
 
         String action = intent.getAction();
         Bundle extras = intent.getExtras();
+        int[] appwidgetIds = new int[] {};
+        Log.i("SSS", "action:" + action);
+        if (extras != null) {
+             appwidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+        }
 
-        int[] appwidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
-
-        if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {
+        if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action) || AppWidgetManager.ACTION_APPWIDGET_ENABLED.equals(action)) {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
-            views.setOnClickPendingIntent(R.id.clickableLaout, buildURIIntent(context));
+            views.setOnClickPendingIntent(R.id.clickableLayout, buildURIIntent(context));
             remoteViews = views;
-            this.onUpdate(context, AppWidgetManager.getInstance(context),appwidgetIds);
+            this.onUpdate(context, AppWidgetManager.getInstance(context), appwidgetIds);
         }
 
     }

@@ -1,37 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/clickableLaout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#70FFFFFF"
-    android:clickable="true"
-    android:padding="@dimen/widget_margin">
+    android:clickable="true">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/clickableLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_gravity="end"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Start \nFloating Timer"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foregroundGravity="center"
-            android:background="@drawable/ic_stat_image_timer"
-            android:backgroundTint="#2196F3"
-            android:tint="#002196F3" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="122dp"
-            android:layout_height="47dp"
-            android:foregroundGravity="center"
-            android:text="Floating\nTimer"
-            android:textSize="18sp"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
 </LinearLayout>
 
 
