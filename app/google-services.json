@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "368981676065",
+    "firebase_url": "https://flobata-248f0.firebaseio.com",
+    "project_id": "flobata-248f0",
+    "storage_bucket": "flobata-248f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368981676065:android:1e860839c817c0f0",
+        "android_client_info": {
+          "package_name": "xyz.flyinghealthtimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368981676065-uepohterjfj8a3olrtvbhl8nh99rlptk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.flyinghealthtimer",
+            "certificate_hash": "8bcb9db971a9334ee7b68d861f1c962ca20af692"
+          }
+        },
+        {
+          "client_id": "368981676065-ftq690r1hgtr13javj5210206fsouqdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgGTLSklvudYZ9o5V2kVZYgdeu16kC2W4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368981676065-ftq690r1hgtr13javj5210206fsouqdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
