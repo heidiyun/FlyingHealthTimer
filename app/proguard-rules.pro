@@ -24,3 +24,4 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class xyz.flyinghealthtimer.service.** { *; }
+-keep class xyz.flyinghealthtimer.TimerListActivity { *; }
