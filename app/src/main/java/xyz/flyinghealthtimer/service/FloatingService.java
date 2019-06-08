@@ -12,8 +12,8 @@ import android.view.WindowManager;
 
 import xyz.flyinghealthtimer.FloatingTimerView;
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.SharedApplication;
-import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
+import xyz.flyinghealthtimer.utils.SharedApplication;
 
 public class FloatingService extends Service {
 
@@ -51,6 +51,9 @@ public class FloatingService extends Service {
         mWindowManager.addView(mFloatingView, mFloatingView.getWindowLayoutParams());
 
         startForeground(NOTIFICATION_ID, createNotification(this));
+
+
+
         return START_REDELIVER_INTENT;
     }
 

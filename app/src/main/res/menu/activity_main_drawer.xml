@@ -12,15 +12,18 @@
             android:id="@+id/nav_pullrequest"
 
             android:title="StopWatch" />
+
+        <item
+            android:id="@+id/nav_record"
+
+            android:title="Record" />
+
         <item
             android:id="@+id/nav_issue"
 
             android:title="Setting" />
 
-        <!--<item-->
-            <!--android:id="@+id/nav_record"-->
 
-            <!--android:title="Record" />-->
 
     </group>
 

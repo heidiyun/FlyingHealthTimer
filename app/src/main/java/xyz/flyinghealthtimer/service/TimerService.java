@@ -27,7 +27,7 @@ import java.util.TimerTask;
 import xyz.flyinghealthtimer.MainActivity;
 import xyz.flyinghealthtimer.R;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
-import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 
 
 public class TimerService extends Service {

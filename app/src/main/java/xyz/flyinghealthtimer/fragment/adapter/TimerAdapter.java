@@ -14,12 +14,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
 import xyz.flyinghealthtimer.service.TimerService;
-import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.utils.FragmentController;
 
 public class TimerAdapter extends BaseAdapter {
 
@@ -120,7 +120,7 @@ public class TimerAdapter extends BaseAdapter {
                 if (!TimerService.isServiceRunning)
                     FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
                 else {
-                    Toast.makeText(root.getContext(), "Another Timer is Running", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(root.getContext(), "Another Timer is Running", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -20,13 +20,15 @@ import android.view.MenuItem;
 import java.util.List;
 
 import xyz.flyinghealthtimer.fragment.MainFragment;
+import xyz.flyinghealthtimer.fragment.RecordFragment;
 import xyz.flyinghealthtimer.fragment.SettingFragment;
 import xyz.flyinghealthtimer.fragment.StopWatchFragment;
 import xyz.flyinghealthtimer.fragment.TimerFragment;
 import xyz.flyinghealthtimer.fragment.adapter.SectionPageAdapter;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.FragmentController;
 import xyz.flyinghealthtimer.utils.TimerApi;
-import xyz.flyinghealthtimer.utils.TimerModel;
 import xyz.flyinghealthtimer.utils.Utils;
 
 
@@ -145,8 +147,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return;
             }
             if (isShowOverlayPermission) {
+
+
+
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName()));
                 startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
+
+
+
+
             }
         }
     }
@@ -170,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_issue:
                 FragmentController.newFragment(new SettingFragment(), R.layout.fragment_setting, true);
                 break;
-//            case R.id.nav_record:
-//                FragmentController.newFragment(new RecordFragment(), R.layout.fragment_record, true);
-//                break;
+            case R.id.nav_record:
+                FragmentController.newFragment(new RecordFragment(), R.layout.fragment_record, true);
+                break;
 
 
 

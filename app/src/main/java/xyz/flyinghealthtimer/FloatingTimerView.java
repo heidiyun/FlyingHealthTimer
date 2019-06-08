@@ -2,6 +2,7 @@ package xyz.flyinghealthtimer;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,13 +18,15 @@ import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
+import java.util.Calendar;
+
 import xyz.flyinghealthtimer.fragment.TimerFragment;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
 import xyz.flyinghealthtimer.service.TimerService;
-import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.utils.DBHelper;
 
 public class FloatingTimerView extends FloatingView {
-
 
     static public TextView mTimerView;
     public TextView timerStatus;
@@ -139,19 +142,32 @@ public class FloatingTimerView extends FloatingView {
             case FINISH:
                 getContext().stopService(new Intent(getContext(), TimerService.class));
                 statusView.setText(R.string.finish);
-//                progressBar.setProgressBackgroundColor(ContextCompat.getColor(getContext(), R.color.yellow));
                 progressBar.setVisibility(View.GONE);
-//                ContentValues values = new ContentValues();
-//                values.put("_id", (byte[]) null);
-//                values.put("name", timerModel.name);
-//                values.put("count", 1);
-//                Calendar cal = Calendar.getInstance();
-//                StringBuffer sb = new StringBuffer();
-//                sb.append(cal.get(Calendar.YEAR));
-//                sb.append(cal.get(Calendar.MONTH));
-//                sb.append(cal.get(Calendar.DATE));
-//                values.put("date", sb.toString());
-//                db.insert("records", null, values);
+
+                Calendar cal = Calendar.getInstance();
+                StringBuffer sb = new StringBuffer();
+                sb.append(cal.get(Calendar.YEAR));
+                sb.append(cal.get(Calendar.MONTH));
+                sb.append(cal.get(Calendar.DATE));
+
+
+                if (helper.selectColumns(timerModel.name, sb.toString())) {
+                    ContentValues values = new ContentValues();
+                    values.put("count", helper.getCount(timerModel.name, sb.toString()) + 1);
+
+                    db.update("records", values, "name=?", new String[]{timerModel.name});
+                } else {
+
+                    ContentValues values = new ContentValues();
+                    Log.i("SSS", "" + helper.getCount(timerModel.name, sb.toString()));
+                    values.put("_id", (byte[]) null);
+                    values.put("name", timerModel.name);
+                    values.put("count", helper.getCount(timerModel.name, sb.toString()) + 1);
+                    values.put("date", sb.toString());
+                    values.put("round", timerModel.timerCount);
+                    db.insert("records", null, values);
+                }
+
                 break;
         }
 
@@ -262,17 +278,10 @@ public class FloatingTimerView extends FloatingView {
         mLayout.setBackgroundResource(R.drawable.ic_timer_started);
     }
 
-    private void stopTimer() {
-        mIsStarted = false;
-
-        mLayout.setBackgroundResource(R.drawable.ic_timer_stopped);
-
-
-    }
 
     private void resetTimer() {
         mIsStarted = false;
-
+        progressBar.setVisibility(View.VISIBLE);
 
         getContext().stopService(new Intent(getContext(), TimerService.class));
         nowStatus = REST;
@@ -284,12 +293,5 @@ public class FloatingTimerView extends FloatingView {
         mLayout.setBackgroundResource(R.drawable.ic_timer_prestart);
         updateScreen();
 
-//        mMillisRemaining = 0;
-//        if(mCountDownTimer!=null)mCountDownTimer.cancel();
-//        mPickers.setVisibility(View.VISIBLE);
-//        mTimerView.setVisibility(INVISIBLE);
-//        mHourPicker.reset();
-//        mSecondPicker.reset();
-//        mMinutePicker.reset();
     }
 }

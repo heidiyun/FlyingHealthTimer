@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import xyz.flyinghealthtimer.DBHelper;
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.Record;
+import xyz.flyinghealthtimer.fragment.model.Record;
+import xyz.flyinghealthtimer.utils.DBHelper;
 
 public class RecordFragment extends BaseFragment {
 
@@ -84,6 +84,7 @@ public class RecordFragment extends BaseFragment {
 class RecordViewHolder extends RecyclerView.ViewHolder {
     TextView timerName;
     TextView timerCount;
+    TextView timerRound;
 
 
     public RecordViewHolder(Context context, ViewGroup parent) {
@@ -92,6 +93,7 @@ class RecordViewHolder extends RecyclerView.ViewHolder {
 
         timerCount = itemView.findViewById(R.id.record_timer_count);
         timerName = itemView.findViewById(R.id.timer_name);
+        timerRound = itemView.findViewById(R.id.round);
 
     }
 
@@ -117,6 +119,8 @@ class RecordAdapter extends RecyclerView.Adapter<RecordViewHolder> {
 
         viewHolder.timerName.setText(dataSet.get(position).getName());
         viewHolder.timerCount.setText("" + dataSet.get(position).getCount());
+        viewHolder.timerRound.setText("(" + dataSet.get(position).getRound()+ " rounds)");
+
 
 
     }

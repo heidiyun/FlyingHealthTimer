@@ -4,6 +4,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
+
 public class TimerApi {
 
     public static void addTimer(Context mContext, TimerModel timer){

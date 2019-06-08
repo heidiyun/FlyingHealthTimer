@@ -1,13 +1,15 @@
-package xyz.flyinghealthtimer;
+package xyz.flyinghealthtimer.fragment.model;
 
 public class Record {
     private String name;
     private int count;
+    private int round;
 
-    public Record(String name, int count) {
+    public Record(String name, int count, int round) {
 
         this.name = name;
         this.count = count;
+        this.round = round;
 
     }
 
@@ -17,5 +19,9 @@ public class Record {
 
     public String getName() {
         return name;
+    }
+
+    public int getRound() {
+        return round;
     }
 }

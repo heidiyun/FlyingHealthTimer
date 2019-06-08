@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.flyinghealthtimer.R;
-import xyz.flyinghealthtimer.utils.TimerModel;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 
 
 public class Storage {

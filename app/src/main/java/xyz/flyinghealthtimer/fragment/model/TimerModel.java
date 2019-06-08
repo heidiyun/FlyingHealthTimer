@@ -1,4 +1,4 @@
-package xyz.flyinghealthtimer.utils;
+package xyz.flyinghealthtimer.fragment.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

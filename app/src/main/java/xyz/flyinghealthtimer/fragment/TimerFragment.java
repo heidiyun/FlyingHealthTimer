@@ -3,6 +3,7 @@ package xyz.flyinghealthtimer.fragment;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,13 +32,15 @@ import android.widget.TextView;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
-import xyz.flyinghealthtimer.DBHelper;
-import xyz.flyinghealthtimer.FragmentController;
+import java.util.Calendar;
+
 import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
 import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.DBHelper;
+import xyz.flyinghealthtimer.utils.FragmentController;
 import xyz.flyinghealthtimer.utils.TimerApi;
-import xyz.flyinghealthtimer.utils.TimerModel;
 
 @SuppressLint("ValidFragment")
 public class TimerFragment extends BaseFragment {
@@ -134,7 +138,6 @@ public class TimerFragment extends BaseFragment {
         }
 
 
-
         statusView = (TextView) rootView.findViewById(R.id.status);
         progressBar = (CircleProgressBar) rootView.findViewById(R.id.circleProgressbar);
         progressBar.setProgressFormatter(new MyProgressFormatter());
@@ -183,6 +186,7 @@ public class TimerFragment extends BaseFragment {
         fabStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 mActivity.stopService(new Intent(getContext(), TimerService.class));
                 nowStatus = REST;
                 rest = maxRest;
@@ -211,12 +215,6 @@ public class TimerFragment extends BaseFragment {
             i.putExtra("id", timerModel.id);
 
             rootView.getContext().startService(i);
-//            rootView.getContext().bindService(i, connection, Context.BIND_AUTO_CREATE);
-
-//            Intent intent = new Intent(rootView.getContext(), floatingService.getClass());
-//              service 객체에서 받아온 정보를 intent에 넣어주면 되나?
-
-//            rootView.getContext().startService(intent);
 
         }
 
@@ -226,20 +224,6 @@ public class TimerFragment extends BaseFragment {
         return rootView;
     }
 
-//    ServiceConnection connection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            TimerService.LocalBinder binder = (TimerService.LocalBinder) service;
-//            timerService = binder.getService();
-//            isService = true;
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            isService = false;
-//
-//        }
-//    };
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
@@ -321,17 +305,30 @@ public class TimerFragment extends BaseFragment {
                 progressBar.setVisibility(View.INVISIBLE);
                 fabStop.setImageResource(R.drawable.ic_play_button);
                 count.setVisibility(View.INVISIBLE);
-//                ContentValues values = new ContentValues();
-//                values.put("_id", (byte[]) null);
-//                values.put("name", timerModel.name);
-//                values.put("count", 1);
-//                Calendar cal = Calendar.getInstance();
-//                StringBuffer sb = new StringBuffer();
-//                sb.append(cal.get(Calendar.YEAR));
-//                sb.append(cal.get(Calendar.MONTH));
-//                sb.append(cal.get(Calendar.DATE));
-//                values.put("date", sb.toString());
-//                db.insert("records", null, values);
+
+                Calendar cal = Calendar.getInstance();
+                StringBuffer sb = new StringBuffer();
+                sb.append(cal.get(Calendar.YEAR));
+                sb.append(cal.get(Calendar.MONTH));
+                sb.append(cal.get(Calendar.DATE));
+
+
+                if (helper.selectColumns(timerModel.name, sb.toString())) {
+                    ContentValues values = new ContentValues();
+                    values.put("count", helper.getCount(timerModel.name, sb.toString()) + 1);
+
+                    db.update("records", values, "name=?", new String[]{timerModel.name});
+                } else {
+
+                    ContentValues values = new ContentValues();
+                    Log.i("SSS", "" + helper.getCount(timerModel.name, sb.toString()));
+                    values.put("_id", (byte[]) null);
+                    values.put("name", timerModel.name);
+                    values.put("count", helper.getCount(timerModel.name, sb.toString()) + 1);
+                    values.put("date", sb.toString());
+                    values.put("round", timerModel.timerCount);
+                    db.insert("records", null, values);
+                }
 //                db.execSQL("INSERT INTO records VALUES (null, " + 1 + ", " + 1 + ")");
                 break;
         }

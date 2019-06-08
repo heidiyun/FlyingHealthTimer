@@ -1,46 +1,37 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/widget_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clickableLaout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#70FFFFFF"
-    android:padding="@dimen/widget_margin"
-    android:clickable="true">
+    android:clickable="true"
+    android:padding="@dimen/widget_margin">
+
 
     <LinearLayout
-        android:id="@+id/clickableLaout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:clickable="true">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:background="@drawable/ic_stat_image_timer"
+            android:backgroundTint="#2196F3"
+            android:tint="#002196F3" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_stat_image_timer"
-                android:backgroundTint="#2196F3"
-                android:tint="#002196F3"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="122dp"
-                android:layout_height="47dp"
-                android:text="Floating\nTimer"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="122dp"
+            android:layout_height="47dp"
+            android:foregroundGravity="center"
+            android:text="Floating\nTimer"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
     </LinearLayout>
+</LinearLayout>
 
 
-</RelativeLayout>

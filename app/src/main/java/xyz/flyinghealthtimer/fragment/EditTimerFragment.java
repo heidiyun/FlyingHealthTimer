@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import xyz.flyinghealthtimer.FragmentController;
 import xyz.flyinghealthtimer.R;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
+import xyz.flyinghealthtimer.utils.FragmentController;
 import xyz.flyinghealthtimer.utils.TimerApi;
-import xyz.flyinghealthtimer.utils.TimerModel;
 import xyz.flyinghealthtimer.utils.Utils;
 
 @SuppressLint("ValidFragment")

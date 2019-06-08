@@ -10,12 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import java.util.Date;
+
 import xyz.flyinghealthtimer.fragment.adapter.TimerAdapter;
+import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.FloatingService;
 import xyz.flyinghealthtimer.service.TimerService;
 import xyz.flyinghealthtimer.utils.TimerApi;
-import xyz.flyinghealthtimer.utils.TimerModel;
 
 public class TimerListActivity extends AppCompatActivity {
 
