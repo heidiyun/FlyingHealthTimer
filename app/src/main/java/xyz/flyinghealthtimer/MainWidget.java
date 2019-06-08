@@ -59,7 +59,7 @@ public class MainWidget extends AppWidgetProvider {
         if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
-            views.setOnClickPendingIntent(R.id.textView, buildURIIntent(context));
+            views.setOnClickPendingIntent(R.id.clickableLaout, buildURIIntent(context));
             remoteViews = views;
             this.onUpdate(context, AppWidgetManager.getInstance(context),appwidgetIds);
         }
