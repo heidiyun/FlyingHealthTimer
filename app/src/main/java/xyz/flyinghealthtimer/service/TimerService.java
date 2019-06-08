@@ -325,15 +325,6 @@ public class TimerService extends Service {
             notificationManager.createNotificationChannel(notificationChannel);
 
 
-//            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_view);
-//
-//
-//            Intent serviceIntent = new Intent(this, StopServiceReceiver.class);
-//            PendingIntent piIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-//
-//
-//            contentView.setOnClickPendingIntent(R.id.btn_play_pause, piIntent);
-
 
             Notification notification = new Notification.Builder(this, "channel_id")
                     .setContentTitle(getTextStatus() + " " + getTime() + getString(R.string.sec))
@@ -344,24 +335,7 @@ public class TimerService extends Service {
                     .setContentIntent(pIntent)
                     .setAutoCancel(true).build();
 
-//            Notification noti = new Notification.Builder(this, "channel_id")
-//                    .setStyle(new Notification.DecoratedCustomViewStyle())
-//                    .setCustomContentView(contentView)
-//                    .setSmallIcon(R.drawable.ic_stat_image_timer)
-//                    .build();
-
-//            notificationManager.notify(1, noti);
-
-
-//            Intent i = new Intent(this, MainActivity.class);
-//            i.setAction("stop");
-//            i.putExtra("stop", true);
-//            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
-//            notification.addAction(R.drawable.ic_action_av_stop, getString(R.string.stop), pi);
-
             notificationManager.notify(1, notification);
-
-//            startForeground(456772, notification.build());
         }
     }
 

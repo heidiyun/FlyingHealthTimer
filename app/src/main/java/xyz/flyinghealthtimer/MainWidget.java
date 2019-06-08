@@ -20,7 +20,6 @@ public class MainWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        //CharSequence widgetText = "Hello";
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
         //views.setTextViewText(R.id.widget_layout, widgetText);
