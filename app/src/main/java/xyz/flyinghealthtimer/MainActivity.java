@@ -2,6 +2,8 @@ package xyz.flyinghealthtimer;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import xyz.flyinghealthtimer.fragment.TimerFragment;
 import xyz.flyinghealthtimer.fragment.adapter.SectionPageAdapter;
 import xyz.flyinghealthtimer.fragment.model.TimerModel;
 import xyz.flyinghealthtimer.service.TimerService;
+import xyz.flyinghealthtimer.utils.DBHelper;
 import xyz.flyinghealthtimer.utils.FragmentController;
 import xyz.flyinghealthtimer.utils.TimerApi;
 import xyz.flyinghealthtimer.utils.Utils;
@@ -71,8 +74,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentController.newFragment(new MainFragment(), R.layout.fragment_main, false);
         onNewIntent(getIntent());
 
+        DBHelper helper = new DBHelper(this);
 
+        SQLiteDatabase db;
 
+        try {
+            db = helper.getWritableDatabase();
+        } catch (SQLiteException e) {
+            db = helper.getReadableDatabase();
+        }
+
+//        ContentValues values = new ContentValues();
+//        Log.i("SSS", "" + helper.getCount("sit-up", "2019510"));
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "sit-up");
+//        values.put("count", 1);
+//        values.put("date", "2019510");
+//        values.put("round", 3);
+//        db.insert("records", null, values);
+//
+//
+//
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "chin-up");
+//        values.put("count", 2);
+//        values.put("date", "2019510");
+//        values.put("round", 5);
+//        db.insert("records", null, values);
+//
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "squat");
+//        values.put("count", 3);
+//        values.put("date", "201959");
+//        values.put("round", 3);
+//        db.insert("records", null, values);
+//
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "sit-up");
+//        values.put("count", 5);
+//        values.put("date", "201959");
+//        values.put("round", 2);
+//        db.insert("records", null, values);
+//
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "chin-up");
+//        values.put("count", 4);
+//        values.put("date", "201959");
+//        values.put("round", 7);
+//        db.insert("records", null, values);
+//
+//
+//
+//        values.put("_id", (byte[]) null);
+//        values.put("name", "chin-up");
+//        values.put("count", 5);
+//        values.put("date", "201958");
+//        values.put("round", 3);
+//        db.insert("records", null, values);
 
 
 //        TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -171,10 +229,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_profile:
-                FragmentController.newFragment(new MainFragment(), 1, false);
+                FragmentController.newFragment(new MainFragment(), 1, true);
                 break;
             case R.id.nav_pullrequest:
-                FragmentController.newFragment(new StopWatchFragment(), R.layout.fragment_stopwatch, false);
+                FragmentController.newFragment(new StopWatchFragment(), R.layout.fragment_stopwatch, true);
                 break;
             case R.id.nav_issue:
                 FragmentController.newFragment(new SettingFragment(), R.layout.fragment_setting, true);

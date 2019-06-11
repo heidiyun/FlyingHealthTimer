@@ -105,7 +105,7 @@ public class AddTimerFragment extends BaseFragment {
                     TimerModel timer = new TimerModel();
                     timer.id = (int) new Date().getTime();
                     timer.name = nameText.getText().toString();
-                    timer.timeRest = 10;
+                    timer.timeRest = 4;
                     timer.timeRun = (Integer.valueOf(timeRun.getText().toString()));
                     timer.timePause = (Integer.valueOf(timePause.getText().toString()));
                     timer.timerCount = (Integer.valueOf(timerCount.getText().toString()));

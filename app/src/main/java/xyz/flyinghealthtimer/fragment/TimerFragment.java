@@ -51,7 +51,7 @@ public class TimerFragment extends BaseFragment {
     private static final int PAUSE = 2;
     private static final int FINISH = 3;
 
-    public static boolean isForeground = true;
+    public static boolean isForeground = false;
     private FloatingService floatingService = new FloatingService();
 
     private DBHelper helper;
@@ -123,7 +123,7 @@ public class TimerFragment extends BaseFragment {
             return null;
         }
         setTitle("");
-
+        isForeground = true;
 
         actionBar.setElevation(0);
         if (rootView != null) return rootView;
@@ -272,10 +272,9 @@ public class TimerFragment extends BaseFragment {
                 statusView.setText(R.string.rest);
 //                statusView.setTextColor(ContextCompat.getColor(rootView.getContext(), R.color.yellow));
                 progressBar.setMax(maxRest);
-                progressBar.setProgress(rest - 1);
+                progressBar.setProgress(rest -1);
                 progressBar.setProgressBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
                 progressBar.setProgressTextColor(ContextCompat.getColor(rootView.getContext(), R.color.colorAccent));
-
 
                 break;
             case RUN:
@@ -373,9 +372,12 @@ public class TimerFragment extends BaseFragment {
 
         if (isService) {
             isService = false;
+            isForeground = false;
         }
 
         rootView.getContext().stopService(new Intent(getContext(), TimerService.class));
+
+
         super.onDestroy();
     }
 

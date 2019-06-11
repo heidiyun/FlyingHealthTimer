@@ -147,6 +147,8 @@ public class TimerService extends Service {
         if (timer != null) timer.cancel();
         if (notificationManager != null) notificationManager.cancelAll();
 
+        tts.shutdown();
+
         isServiceRunning = false;
 
     }

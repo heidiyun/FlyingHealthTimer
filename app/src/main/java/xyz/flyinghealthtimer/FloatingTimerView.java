@@ -81,6 +81,7 @@ public class FloatingTimerView extends FloatingView {
 
     }
 
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
@@ -143,6 +144,7 @@ public class FloatingTimerView extends FloatingView {
                 getContext().stopService(new Intent(getContext(), TimerService.class));
                 statusView.setText(R.string.finish);
                 progressBar.setVisibility(View.GONE);
+                mLayout.setBackgroundResource(R.drawable.ic_timer_stopped);
 
                 Calendar cal = Calendar.getInstance();
                 StringBuffer sb = new StringBuffer();
@@ -294,4 +296,6 @@ public class FloatingTimerView extends FloatingView {
         updateScreen();
 
     }
+
+
 }

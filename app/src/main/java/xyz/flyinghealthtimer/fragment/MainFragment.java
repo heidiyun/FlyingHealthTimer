@@ -56,7 +56,7 @@ public class MainFragment extends BaseFragment {
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();
             timer.name = "20 - 10 Tabata";
-            timer.timeRest = 3;
+            timer.timeRest = 5;
             timer.timeRun = 20;
             timer.timePause = 10;
             timer.timerCount = 8;
@@ -65,7 +65,7 @@ public class MainFragment extends BaseFragment {
             timer = new TimerModel();
             timer.id = (int) new Date().getTime();
             timer.name = "50 - 20 Tabata";
-            timer.timeRest = 3;
+            timer.timeRest = 5;
             timer.timeRun = 50;
             timer.timePause = 20;
             timer.timerCount = 6;

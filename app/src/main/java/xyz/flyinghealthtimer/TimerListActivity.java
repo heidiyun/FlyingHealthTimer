@@ -29,6 +29,8 @@ public class TimerListActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_main);
 
 
+        findViewById(R.id.fab).setVisibility(View.GONE);
+
         if(TimerApi.getListTimers(this).size() == 0){
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();

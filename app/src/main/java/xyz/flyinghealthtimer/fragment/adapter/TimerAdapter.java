@@ -120,7 +120,7 @@ public class TimerAdapter extends BaseAdapter {
                 if (!TimerService.isServiceRunning)
                     FragmentController.newFragment(new TimerFragment(timer), R.layout.fragment_timer, true);
                 else {
-//                    Toast.makeText(root.getContext(), "Another Timer is Running", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(root.getContext(), "Another Timer is Running", Toast.LENGTH_SHORT).show();
                 }
 
             }
