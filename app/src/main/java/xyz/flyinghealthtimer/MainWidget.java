@@ -29,6 +29,7 @@ public class MainWidget extends AppWidgetProvider {
     }
 
     private PendingIntent buildURIIntent(Context context) {
+
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setComponent(new ComponentName(context, TimerListActivity.class));
@@ -53,10 +54,10 @@ public class MainWidget extends AppWidgetProvider {
 
         String action = intent.getAction();
         Bundle extras = intent.getExtras();
-        int[] appwidgetIds = new int[] {};
+        int[] appwidgetIds = new int[]{};
         Log.i("SSS", "action:" + action);
         if (extras != null) {
-             appwidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+            appwidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
         }
 
 

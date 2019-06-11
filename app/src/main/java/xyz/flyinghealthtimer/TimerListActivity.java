@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -31,7 +32,7 @@ public class TimerListActivity extends AppCompatActivity {
 
         findViewById(R.id.fab).setVisibility(View.GONE);
 
-        if(TimerApi.getListTimers(this).size() == 0){
+        if (TimerApi.getListTimers(this).size() == 0) {
             TimerModel timer = new TimerModel();
             timer.id = (int) new Date().getTime();
             timer.name = getResources().getString(R.string.flying_health_timer);
@@ -55,26 +56,29 @@ public class TimerListActivity extends AppCompatActivity {
         final TimerAdapter adapter = new TimerAdapter(this, TimerApi.getListTimers(this), true);
         listTimer.setAdapter(adapter);
 
-        listTimer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(isMyServiceRunning(TimerService.class)) {
-                    TimerListActivity.this.stopService(new Intent(TimerListActivity.this, TimerService.class));
+        if (!TimerService.isServiceRunning) {
+            listTimer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (isMyServiceRunning(TimerService.class)) {
+                        TimerListActivity.this.stopService(new Intent(TimerListActivity.this, TimerService.class));
+                    }
+                    if (position == parent.getCount()) return;
+                    TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
+
+                    Intent intent = new Intent(TimerListActivity.this, FloatingService.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("timer", (Parcelable) timer);
+                    intent.putExtra("timer", bundle);
+                    TimerListActivity.this.startService(intent);
+                    finish();
                 }
-                if(position == parent.getCount()) return;
-                TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
 
-                Intent intent = new Intent(TimerListActivity.this, FloatingService.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("timer", (Parcelable) timer);
-                intent.putExtra("timer", bundle);
-                TimerListActivity.this.startService(intent);
 
-                finish();
-//
-
-            }
-        });
+            });
+        } else {
+            Toast.makeText(this, "Another timer is running", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
