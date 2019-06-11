@@ -56,29 +56,33 @@ public class TimerListActivity extends AppCompatActivity {
         final TimerAdapter adapter = new TimerAdapter(this, TimerApi.getListTimers(this), true);
         listTimer.setAdapter(adapter);
 
-        if (!TimerService.isServiceRunning) {
+
             listTimer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (isMyServiceRunning(TimerService.class)) {
-                        TimerListActivity.this.stopService(new Intent(TimerListActivity.this, TimerService.class));
-                    }
-                    if (position == parent.getCount()) return;
-                    TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
+                    if (!TimerService.isServiceRunning) {
+                        if (isMyServiceRunning(TimerService.class)) {
+                            TimerListActivity.this.stopService(new Intent(TimerListActivity.this, TimerService.class));
+                        }
+                        if (position == parent.getCount()) return;
+                        TimerModel timer = ((TimerAdapter) parent.getAdapter()).getItem(position);
 
-                    Intent intent = new Intent(TimerListActivity.this, FloatingService.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("timer", (Parcelable) timer);
-                    intent.putExtra("timer", bundle);
-                    TimerListActivity.this.startService(intent);
-                    finish();
+                        Intent intent = new Intent(TimerListActivity.this, FloatingService.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("timer", (Parcelable) timer);
+                        intent.putExtra("timer", bundle);
+                        TimerListActivity.this.startService(intent);
+                        finish();
+                    }else {
+                        Toast.makeText(TimerListActivity.this, "Another timer is running", Toast.LENGTH_SHORT).show();
+
+                    }
+
                 }
 
 
             });
-        } else {
-            Toast.makeText(this, "Another timer is running", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
