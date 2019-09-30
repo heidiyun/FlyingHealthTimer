@@ -25,10 +25,6 @@ You can download this app from the link below.
 
 
 ![features](https://user-images.githubusercontent.com/38517815/65889618-84b0cb80-e3dc-11e9-952a-c6f22ce619a1.png)
-+) It automatically records exercise.
-
-![record](https://user-images.githubusercontent.com/38517815/65888901-45ce4600-e3db-11e9-9057-479c2625d6e3.jpeg)
-
 
 The one and only Floating Tabata Timer App!!
 Never miss the timer again!
