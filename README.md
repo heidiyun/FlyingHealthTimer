@@ -24,7 +24,7 @@ You can download this app from the link below.
 [Flobata](https://play.google.com/store/apps/details?id=xyz.flyinghealthtimer&hl=ko)
 
 
-![features](https://user-images.githubusercontent.com/38517815/65889618-84b0cb80-e3dc-11e9-952a-c6f22ce619a1.png)
+![features](https://user-images.githubusercontent.com/38517815/65890481-ea518780-e3dd-11e9-8cee-c459050ae835.png)
 
 The one and only Floating Tabata Timer App!!
 Never miss the timer again!
